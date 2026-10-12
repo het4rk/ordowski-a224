@@ -1,47 +1,67 @@
-# Ordowski's conjecture on squares modulo n (OEIS A000224): prime powers and semiprimes in Lean 4
+# Ordowski's conjecture on squares modulo n (OEIS A000224): even numbers, prime powers and semiprimes
 
-Let `a(n)` be the number of squares modulo `n` ([A000224](https://oeis.org/A000224)).
-**Conjecture (T. Ordowski).** For `n > 1`, `n` is an odd prime ⟺ `n² ≡ 1 (mod a(n)(a(n)-1))`.
-The conjecture is listed as open in
-[google-deepmind/formal-conjectures](https://github.com/google-deepmind/formal-conjectures)
-(`FormalConjectures/OEIS/224.lean`).
+[![Lean build](https://github.com/het4rk/ordowski-a224/actions/workflows/lean.yml/badge.svg)](https://github.com/het4rk/ordowski-a224/actions/workflows/lean.yml)
 
-## What is proved, unconditionally and machine-checked
+**Author:** Hetark Shah, AI-assisted by Grok  
+**Date:** October 12, 2026
 
-`OeisA224.conjecture_main` (in `OrdowskiA224/Main.lean`): the conjecture holds for every
-`n > 1` that is **even**, a **prime power** `p^k` (k ≥ 1), or **a product of two distinct odd
-primes**. It is stated with the exact definition of `a` and the exact form of
-`OeisA224.conjecture` from formal-conjectures.
+## Result
 
-- No `sorry`, no `native_decide`, and no extra hypotheses. The finite check uses `decide +kernel`.
-- `#print axioms` gives only `propext, Classical.choice, Quot.sound` (see `axioms.txt`).
-- The supporting lemmas are fully proved:
-  - `a_eq_aZ`: reduction to `ZMod n`
-  - `aZ_mul`: CRT multiplicativity
-  - `aZ_prime`: `a p = (p+1)/2`
-  - `stangl`: Stangl's closed form for `a (p^k)`
-  - `prime_power_case`, `semiprime_case` and `even_case`
+Let `a(n)` be the number of squares modulo `n` ([A000224](https://oeis.org/A000224)). T. Ordowski (2025) conjectured that for `n > 1`, `n` is an odd prime ⟺ `n² ≡ 1 (mod a(n)(a(n)−1))`. The conjecture is listed as `research open` in [google-deepmind/formal-conjectures](https://github.com/google-deepmind/formal-conjectures) (`FormalConjectures/OEIS/224.lean`). We prove it for all even `n`, all prime powers and all products of two distinct odd primes, stated against the exact upstream definition of `a`.
 
-## Still open
+## Status
 
-Squarefree `n` with three or more prime factors, and general odd composites (for example
-`p^2 q`). The paper explains why the semiprime method does not directly extend.
+**Partial result. The full conjecture remains open.** Proved: every `n > 1` that is even, a prime power `p^k` (k ≥ 1), or a product of two distinct odd primes. Open: squarefree `n` with ≥ 3 prime factors, and odd composites such as `p²q`.
+
+## Theorems and Lean names
+
+| Lean name | Statement |
+|---|---|
+| `conjecture_main` | the conjecture for `n` even, `p^k`, or `pq` (exact upstream conclusion) |
+| `even_case` | even `n` never satisfy the congruence |
+| `prime_direction` | odd prime ⇒ congruence |
+| `a_eq_aZ`, `aZ_mul`, `aZ_prime` | reduction to `ZMod n`, CRT multiplicativity, `a p = (p+1)/2` |
+| `stangl` | Stangl's closed form for `a (p^k)` |
+| `prime_power_case` | odd prime powers `p^k`, `k ≥ 2` |
+| `semiprime_case` | `n = pq`, distinct odd primes (finite check by `decide +kernel`) |
+
+No `sorry`, no `native_decide`, no extra hypotheses.
 
 ## Build
 
-```
+Toolchain `leanprover/lean4:v4.35.0-rc4`; Mathlib `v4.35.0-rc4` (commit `1f414401f69059aa7eead47b53ee40bd38455eeb`, pinned in `lake-manifest.json`).
+
+```bash
 lake exe cache get
 lake build
 lake env lean Axioms.lean
 ```
-Toolchain: `leanprover/lean4:v4.35.0-rc4`, Mathlib `v4.35.0-rc4`. `FiniteCheck.lean` takes
-about 2 minutes and a few GB of RAM.
 
-## Layout
-- `OrdowskiA224/`: Lean sources (Defs, Count, Basic, PrimePowerCore, PrimePower, FiniteCheck, Semiprime, Main)
-- `Axioms.lean`: axiom report
-- `paper/`: LaTeX paper (`paper.tex`, `paper.pdf`)
-- `scripts/`: independent Python/C cross-checks (brute force up to 10^8)
+## Axioms output
+
+```
+'OeisA224.conjecture_main' depends on axioms: [propext, Classical.choice, Quot.sound]
+'OeisA224.stangl' depends on axioms: [propext, Classical.choice, Quot.sound]
+'OeisA224.prime_power_case' depends on axioms: [propext, Classical.choice, Quot.sound]
+'OeisA224.conjecture_of_even_or_prime_or_semiprime' depends on axioms: [propext, Classical.choice, Quot.sound]
+'OeisA224.semiprime_case' depends on axioms: [propext, Classical.choice, Quot.sound]
+'OeisA224.even_case' depends on axioms: [propext, Classical.choice, Quot.sound]
+'OeisA224.prime_direction' depends on axioms: [propext, Classical.choice, Quot.sound]
+'OeisA224.a_eq_aZ' depends on axioms: [propext, Classical.choice, Quot.sound]
+'OeisA224.aZ_mul' depends on axioms: [propext, Classical.choice, Quot.sound]
+'OeisA224.aZ_prime' depends on axioms: [propext, Classical.choice, Quot.sound]
+'OeisA224.pp_even' depends on axioms: [propext, Classical.choice, Quot.sound]
+'OeisA224.pp_odd' depends on axioms: [propext, Classical.choice, Quot.sound]
+```
+
+## Machine-check attestation
+
+- [`verification/`](verification/) holds `build-log.txt` (fresh-clone build), `axioms.txt`, and [`VERIFICATION.md`](verification/VERIFICATION.md) with the commit SHA, toolchain, Mathlib commit, reproduce commands, the no-sorry grep result and SHA-256 hashes of the Lean sources.
+- [CI](https://github.com/het4rk/ordowski-a224/actions/workflows/lean.yml) does a clean build on every push, fails on any `sorry`, and checks an axiom whitelist (`scripts/check_axioms.sh`). It uploads the build log and axiom report as the `lean-attestation` artifact and shows them in the job summary.
+
+## Paper
+
+[`paper/paper.tex`](paper/paper.tex) and [`paper/paper.pdf`](paper/paper.pdf).
 
 ## Exact match with upstream definitions
 
@@ -58,11 +78,12 @@ theorem conjecture (n : ℕ) (hn : 1 < n) :
 ```
 `OeisA224.a` in `OrdowskiA224/Defs.lean` has exactly this body, and `OeisA224.conjecture_main` concludes exactly `(n.Prime ∧ n ≠ 2) ↔ n ^ 2 ≡ 1 [MOD a n * (a n - 1)]` under its case hypothesis.
 
-## Independent verification
+## Citation
 
-`verification/clean_build.log` comes from a fresh `git clone`, followed by `lake exe cache get`, `lake build` (`Build completed successfully (9029 jobs)`) and `lake env lean Axioms.lean`. All 12 reported declarations depend only on `[propext, Classical.choice, Quot.sound]`.
-CI (`.github/workflows/lean.yml`) repeats this on every push. It fails on `declaration uses 'sorry'` warnings, and `scripts/check_axioms.sh` whitelists only those three axioms.
+See [`CITATION.cff`](CITATION.cff):
 
-## Related work
+> Hetark Shah (AI-assisted by Grok), *Ordowski's conjecture on squares modulo n (OEIS A000224): even numbers, prime powers and semiprimes*, 2026. https://github.com/het4rk/ordowski-a224
 
-Stangl's formula for the number of squares mod p^k (Math. Mag. 1996) and its multiplicativity are classical (see also Finch–Sebah, arXiv:math/0604465). A search of OEIS, the web, MathOverflow and formal-conjectures issues/PRs (Oct 2026) found no proof, partial or complete, of Ordowski's A000224 conjecture. The even, prime-power and two-distinct-odd-prime cases appear to be new, though elementary.
+## License
+
+Apache-2.0 (the same as Mathlib). See [`LICENSE`](LICENSE).

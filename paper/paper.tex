@@ -1,32 +1,48 @@
-\documentclass[11pt]{amsart}
-\usepackage{amssymb,hyperref,url}
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs,tabularx}
+\usepackage[hidelinks]{hyperref}
+\usepackage{url}
+\usepackage{array}
+\def\UrlBreaks{\do0\do1\do2\do3\do4\do5\do6\do7\do8\do9\do a\do b\do c\do d\do e\do f\do/\do.\do-}
+\emergencystretch=3em
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
 \newtheorem{conjecture}[theorem]{Conjecture}
 \theoremstyle{remark}\newtheorem{remark}[theorem]{Remark}
-\title[Ordowski's conjecture on squares modulo $n$]{On Ordowski's characterization of odd primes by the number of squares modulo $n$: prime powers and semiprimes, formalized in Lean~4}
+\newcommand{\lean}[1]{{\ttfamily\def\_{\textunderscore\allowbreak}\def\/{/\allowbreak}#1}}
 \author{Hetark Shah, AI-assisted by Grok}
 \date{October 12, 2026}
+\title{On Ordowski's characterization of odd primes by the number of squares modulo $n$ (OEIS A000224): even numbers, prime powers and semiprimes, formalized in Lean~4}
 \begin{document}
-\begin{abstract}
-Let $a(n)$ be the number of squares modulo $n$ (OEIS A000224). T.~Ordowski conjectured that for $n>1$, $n^2\equiv 1 \pmod{a(n)(a(n)-1)}$ holds if and only if $n$ is an odd prime. We prove the conjecture for every $n$ that is even, a prime power, or a product of two distinct odd primes. For prime powers we use Stangl's formula for $a(p^k)$, which we also formalize, together with a congruence argument modulo $p$. For semiprimes we combine a size argument bounding the smaller prime by $61$, a divisibility argument bounding the larger prime, and a finite check. All results are formalized in Lean~4 with Mathlib against the exact definition of $a$ used in Google DeepMind's \texttt{formal-conjectures} repository. The development uses no \texttt{sorry}, no \texttt{native\_decide}, and only the standard axioms.
-\end{abstract}
 \maketitle
+\begin{abstract}
+Let $a(n)$ be the number of squares modulo $n$ (OEIS A000224~\cite{oeis}). T.~Ordowski conjectured that for $n>1$, $n^2\equiv1\pmod{a(n)(a(n)-1)}$ holds if and only if $n$ is an odd prime. \textbf{The full conjecture remains open.} We prove it for every $n>1$ that is even, a prime power $p^k$ ($k\ge1$), or a product $pq$ of two distinct odd primes. The prime-power case uses Stangl's formula for $a(p^k)$~\cite{stangl}, which we also formalize. The semiprime case combines a size bound with a divisibility bound and a finite check. Everything is formalized in Lean~4 with Mathlib against the exact definition of $a$ in Google DeepMind's \texttt{formal-conjectures} repository~\cite{fc}. The development uses no \texttt{sorry} and no \texttt{native\_decide}, and only the standard axioms.
+\end{abstract}
 
 \section{Introduction}
-For $n\ge 1$ let $a(n)=\#\{k^2 \bmod n : 0\le k<n\}$ be the number of squares in $\mathbb{Z}/n\mathbb{Z}$ (OEIS \href{https://oeis.org/A000224}{A000224}).
-
-\begin{conjecture}[Ordowski]\label{conj}
-For $n>1$: $n$ is an odd prime $\iff n^2\equiv 1 \pmod{a(n)(a(n)-1)}$.
+For $n\ge1$ let $a(n)=\#\{k^2\bmod n:0\le k<n\}$.
+\begin{conjecture}[Ordowski, 2025]\label{conj}
+For $n>1$, $n$ is an odd prime if and only if $n^2\equiv1\pmod{a(n)(a(n)-1)}$.
 \end{conjecture}
+The conjecture appears as a comment on A000224~\cite{oeis}, together with M.~Marcus's remark that it holds up to $n=10^8$. It is formalized as \lean{OeisA224.conjecture} in \nolinkurl{FormalConjectures/OEIS/224.lean} of \texttt{formal-conjectures}~\cite{fc}, where it is tagged \texttt{research open}. The forward direction is immediate from $a(p)=(p+1)/2$. The open part is to show that no composite $n$ satisfies the congruence.
 
-The conjecture appears as a comment on A000224 (T.~Ordowski, Apr.~13, 2025), together with the remark that it holds up to $n=10^8$ (M.~Marcus). It is included as an open problem (\texttt{category research open}) in the \texttt{formal-conjectures} repository~\cite{fc}, file \texttt{FormalConjectures/OEIS/224.lean}. The direction ``odd prime $\Rightarrow$ congruence'' is immediate, since $a(p)=(p+1)/2$. The open direction is that no composite $n$ satisfies the congruence.
+\section{Related work}
+The count $a(n)$ is multiplicative, and Stangl~\cite{stangl} gives its value at prime powers; see also Finch and Sebah~\cite{fs}. On October 12, 2026 we searched OEIS, the web, MathOverflow and the issues and pull requests of \texttt{formal-conjectures} (upstream commit \texttt{34ee0e3}). We found no proof of Conjecture~\ref{conj}, partial or complete. The cases treated here therefore appear to be new, although the arguments are elementary. The formalization uses Lean~4~\cite{lean4} and Mathlib~\cite{mathlib}.
 
+\section{Statement}
 \begin{theorem}\label{main}
-Conjecture~\ref{conj} holds for every $n>1$ that is even, a prime power $p^k$ ($k\ge1$), or of the form $n=pq$ with $p\ne q$ odd primes.
+Conjecture~\ref{conj} holds for every $n>1$ that is (i) even, (ii) a prime power $p^k$ with $k\ge1$, or (iii) a product $pq$ of distinct odd primes $p,q$.
 \end{theorem}
+\noindent Cases not covered include squarefree $n$ with three or more odd prime factors, and odd $n$ such as $p^2q$ that have a repeated prime factor and at least two distinct primes.
 
-\section{Preliminaries}
+\section{Proof overview}
+\subsection{Preliminaries}
 \begin{lemma}\label{mult}
 $a(n)=\#\{x^2 : x\in\mathbb{Z}/n\}$; $a$ is multiplicative; and $a(p)=(p+1)/2$ for odd primes $p$.
 \end{lemma}
@@ -34,10 +50,10 @@ $a(n)=\#\{x^2 : x\in\mathbb{Z}/n\}$; $a$ is multiplicative; and $a(p)=(p+1)/2$ f
 The first claim holds because reduction mod $n$ is a bijection $\{0,\dots,n-1\}\to\mathbb{Z}/n$. If $\gcd(m,n)=1$, the CRT ring isomorphism $\mathbb{Z}/mn\cong \mathbb{Z}/m\times\mathbb{Z}/n$ commutes with squaring, so it maps the set of squares onto the product of the two sets of squares. For an odd prime $p$, the squares are the values $k^2$ with $0\le k\le (p-1)/2$, since $x^2=(-x)^2$. These values are distinct: $k^2=l^2$ forces $p\mid (k-l)(k+l)$, and $0\le k+l<p$.
 \end{proof}
 
-\section{The even case}
+\subsection{The even case}
 If $n$ is even, then $n^2-1$ is odd, while $a(n)(a(n)-1)$ is a product of two consecutive integers and hence even. So $n^2\not\equiv 1$. (If $a(n)(a(n)-1)=0$, the congruence would say $n^2=1$, which is impossible for $n>1$.)
 
-\section{The semiprime case}
+\subsection{The semiprime case}
 \begin{theorem}\label{pq}
 Let $p<q$ be odd integers with $p\ge 3$ prime, and let $s=(p+1)(q+1)/4$. Then $s(s-1)\nmid (pq)^2-1$.
 \end{theorem}
@@ -54,7 +70,7 @@ Put $P=(p+1)(q+1)$, so that $16\,s(s-1)=P(P-4)$. Suppose $Q\,s(s-1)=(pq)^2-1$, s
 \emph{Step 4: finite check.} For each prime $p\in[3,61]$ and each divisor $d=q+1$ of $16(p^2-1)$ with $q>p$ odd, direct computation shows $s(s-1)\nmid (pq)^2-1$. There are only finitely many such pairs.
 \end{proof}
 
-\section{Odd prime powers}
+\subsection{Odd prime powers}
 \begin{lemma}[Stangl~\cite{stangl}]\label{stangl}
 For an odd prime $p$ and $k\ge 2$, $a(p^k)=a(p^{k-2})+\tfrac12 p^{k-1}(p-1)$. Consequently $2(p+1)\,a(p^k)=p^{k+1}+p+2$ if $k$ is even and $p^{k+1}+2p+1$ if $k$ is odd.
 \end{lemma}
@@ -69,27 +85,51 @@ Let $X=p^k$ and $M=2(p+1)$, and write $Q\,s(s-1)=X^2-1$. Multiplying by $M^2$ gi
 \end{proof}
 
 
-\section{Lean formalization}
-The repository accompanying this paper (Lean \texttt{v4.35.0-rc4}, Mathlib tag \texttt{v4.35.0-rc4}) contains:
-\begin{itemize}
-\item \texttt{Defs.lean}: the definition of $a$, copied verbatim from \texttt{formal-conjectures}.
-\item \texttt{Count.lean}: \texttt{a\_eq\_aZ}, \texttt{aZ\_mul} (CRT) and \texttt{aZ\_prime}, i.e.\ Lemma~\ref{mult}.
-\item \texttt{Basic.lean}: \texttt{even\_case} and \texttt{prime\_direction}.
-\item \texttt{FiniteCheck.lean}: Step~4, checked by \texttt{decide +kernel} (kernel evaluation, no \texttt{native\_decide}).
-\item \texttt{Semiprime.lean}: \texttt{pq\_reduction} (Steps~1--3), \texttt{pq\_case} and \texttt{semiprime\_case}.
-\item \texttt{PrimePower.lean}: \texttt{card\_Sq\_split}, \texttt{two\_mul\_card\_unit\_Sq}, \texttt{stangl} (Lemma~\ref{stangl}) and \texttt{prime\_power\_case}.\item \texttt{Main.lean}: \texttt{conjecture\_main}, i.e.\ Theorem~\ref{main}, stated in the exact form of \texttt{OeisA224.conjecture}.
-\item \texttt{PrimePowerCore.lean}: the arithmetic core of Theorem~\ref{pp} (\texttt{pp\_even}, \texttt{pp\_odd}).
-\end{itemize}
-\texttt{\#print axioms} reports only \texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound} for every theorem.
 
-\section{Novelty and related work}
-As of October 12, 2026, the OEIS entry lists the conjecture as open, and \texttt{formal-conjectures} marks it \texttt{research open}. Searches of the web, MathOverflow, the repository's issues and pull requests (checked against upstream commit \texttt{34ee0e3}), and AI-paper indexes found no proof, partial or complete. The ingredients (multiplicativity and Stangl's formula~\cite{stangl}; see also Finch--Sebah~\cite{fs}) are classical. The even case is trivial. To our knowledge, the semiprime and prime-power cases are new, although the arguments are elementary. The squarefree case with three or more prime factors, and general odd composites, remain open. \emph{Remark (not formalized).} The method of Step~3 still shows that if $n=mq$ satisfies the congruence, with $q$ prime and $q\nmid m$, then $q+1\mid 4(m^2-1)$. For three or more prime factors, however, the size argument of Step~2 no longer bounds the second-smallest prime, so our method does not directly extend.
+\section{Formalization}
+All declarations are in namespace \lean{OeisA224}. The definition \lean{a} in \lean{Defs.lean} is copied verbatim from \texttt{formal-conjectures}. The theorem \lean{conjecture\_main} concludes exactly \lean{(n.Prime \(\wedge\) n \(\neq\) 2) \(\leftrightarrow\) n \textasciicircum{} 2 \(\equiv\) 1 [MOD a n * (a n - 1)]} under its case hypothesis.
+\begin{table}[ht]
+\centering
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X@{}}
+\toprule
+Lean name (file) & Statement \\
+\midrule
+\lean{a\_eq\_aZ}, \lean{aZ\_mul}, \lean{aZ\_prime} (\lean{Count.lean}) & Lemma~\ref{mult} \\
+\lean{even\_case}, \lean{prime\_direction} (\lean{Basic.lean}) & even case; odd prime $\Rightarrow$ congruence \\
+\lean{finCheck\_true} (\lean{FiniteCheck.lean}) & Step~4, checked with \lean{decide +kernel} \\
+\lean{pq\_reduction}, \lean{pq\_case}, \lean{semiprime\_case} (\lean{Semiprime.lean}) & Theorem~\ref{pq} and case (iii) \\
+\lean{pp\_even}, \lean{pp\_odd} (\lean{PrimePowerCore.lean}) & arithmetic core of Theorem~\ref{pp} \\
+\lean{stangl}, \lean{prime\_power\_case} (\lean{PrimePower.lean}) & Lemma~\ref{stangl}; Theorem~\ref{pp} \\
+\lean{conjecture\_of\_even\_or\_prime\_or\_semiprime}, \lean{conjecture\_main} (\lean{Main.lean}) & Theorem~\ref{main} \\
+\bottomrule
+\end{tabularx}
+\caption{Theorems and their Lean names.}\label{tab:lean}
+\end{table}
+
+\section{Reproducibility}
+\begin{itemize}
+\item Source code: \url{https://github.com/het4rk/ordowski-a224}.
+\item Toolchain: \texttt{leanprover/lean4:v4.35.0-rc4}. Mathlib: tag \texttt{v4.35.0-rc4}, commit \nolinkurl{1f414401f69059aa7eead47b53ee40bd38455eeb}, pinned in \texttt{lake-manifest.json}.
+\item Build:
+\begin{verbatim}
+lake exe cache get
+lake build
+lake env lean Axioms.lean
+\end{verbatim}
+ \lean{FiniteCheck.lean} takes a few minutes and several GB of RAM.
+\item Axioms: all 12 declarations listed in \texttt{Axioms.lean}, including \lean{conjecture\_main}, depend only on \texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound}.
+\item Attestation: \texttt{verification/} contains the fresh-clone build log, the axiom output and \texttt{VERIFICATION.md}, which records the commit, the toolchain and SHA-256 hashes of the Lean sources. CI (\url{https://github.com/het4rk/ordowski-a224/actions/workflows/lean.yml}) rebuilds the project on every push. It rejects \texttt{sorry} and non-whitelisted axioms, and uploads the build log and axiom report as artifacts.
+\end{itemize}
+
+\section{Limitations}
+\textbf{The full conjecture remains open.} We do not treat squarefree $n$ with three or more prime factors, or general odd composites with a repeated factor and two or more distinct primes (for example $p^2q$). One part of the method extends but is not formalized: the argument of Step~3 shows that if $n=mq$ satisfies the congruence, with $q$ prime and $q\nmid m$, then $q+1\mid4(m^2-1)$. The size argument of Step~2, however, does not bound the second-smallest prime once there are three or more factors, so the method does not directly extend. The independent computational checks in \texttt{scripts/} are not part of the formal proof.
 
 \begin{thebibliography}{9}
-\bibitem{fc} Google DeepMind, \emph{formal-conjectures}, \url{https://github.com/google-deepmind/formal-conjectures}, file \texttt{FormalConjectures/OEIS/224.lean}.
-\bibitem{oeis} OEIS Foundation, \emph{A000224: Number of squares mod n}, \url{https://oeis.org/A000224}.
+\bibitem{oeis} OEIS Foundation Inc., \emph{A000224: Number of squares mod n}, \url{https://oeis.org/A000224}.
+\bibitem{fc} Google DeepMind, \emph{formal-conjectures}, \url{https://github.com/google-deepmind/formal-conjectures}, file \nolinkurl{FormalConjectures/OEIS/224.lean}.
 \bibitem{stangl} W.~D.~Stangl, Counting squares in $\mathbb{Z}_n$, \emph{Math.\ Mag.} \textbf{69} (1996), 285--289.
-\bibitem{fs} S.~R.~Finch and P.~Sebah, Squares and cubes modulo $n$, arXiv:math/0604465.
-\bibitem{mathlib} The mathlib Community, The Lean mathematical library, CPP 2020.
+\bibitem{fs} S.~R.~Finch, P.~Sebah, \emph{Squares and cubes modulo $n$}, arXiv:math/0604465.
+\bibitem{mathlib} The mathlib Community, \emph{The Lean mathematical library}, in Proc.\ CPP 2020, ACM, 367--381.
+\bibitem{lean4} L.~de Moura, S.~Ullrich, \emph{The Lean 4 theorem prover and programming language}, in CADE-28, LNCS 12699, Springer, 2021, 625--635.
 \end{thebibliography}
 \end{document}
