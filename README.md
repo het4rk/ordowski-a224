@@ -42,3 +42,27 @@ about 2 minutes and a few GB of RAM.
 - `Axioms.lean`: axiom report
 - `paper/`: LaTeX paper (`paper.tex`, `paper.pdf`)
 - `scripts/`: independent Python/C cross-checks (brute force up to 10^8)
+
+## Exact match with upstream definitions
+
+Upstream: [google-deepmind/formal-conjectures](https://github.com/google-deepmind/formal-conjectures) at commit `34ee0e3c5fd52d202d62a71094a37970cb5fb870` (main, Oct 12 2026), `FormalConjectures/OEIS/224.lean`:
+```lean
+def a (n : ℕ) : ℕ :=
+  if n = 0 then 1
+  else
+    Finset.card ((Finset.range n).image (fun k : ℕ => k ^ 2 % n))
+
+theorem conjecture (n : ℕ) (hn : 1 < n) :
+    (n.Prime ∧ n ≠ 2) ↔ n ^ 2 ≡ 1 [MOD a n * (a n - 1)] := by
+  sorry
+```
+`OeisA224.a` in `OrdowskiA224/Defs.lean` has exactly this body, and `OeisA224.conjecture_main` concludes exactly `(n.Prime ∧ n ≠ 2) ↔ n ^ 2 ≡ 1 [MOD a n * (a n - 1)]` under its case hypothesis.
+
+## Independent verification
+
+`verification/clean_build.log` comes from a fresh `git clone`, followed by `lake exe cache get`, `lake build` (`Build completed successfully (9029 jobs)`) and `lake env lean Axioms.lean`. All 12 reported declarations depend only on `[propext, Classical.choice, Quot.sound]`.
+CI (`.github/workflows/lean.yml`) repeats this on every push. It fails on `declaration uses 'sorry'` warnings, and `scripts/check_axioms.sh` whitelists only those three axioms.
+
+## Related work
+
+Stangl's formula for the number of squares mod p^k (Math. Mag. 1996) and its multiplicativity are classical (see also Finch–Sebah, arXiv:math/0604465). A search of OEIS, the web, MathOverflow and formal-conjectures issues/PRs (Oct 2026) found no proof, partial or complete, of Ordowski's A000224 conjecture. The even, prime-power and two-distinct-odd-prime cases appear to be new, though elementary.
