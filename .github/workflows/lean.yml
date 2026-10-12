@@ -1,0 +1,16 @@
+name: Lean build
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: leanprover/lean-action@v1
+        with:
+          use-mathlib-cache: true
+      - name: Check axioms
+        run: |
+          lake env lean Axioms.lean | tee axioms_ci.txt
+          ! grep -E "sorryAx|ofReduceBool" axioms_ci.txt
+      - name: No sorry
+        run: "! grep -rn 'sorry' OrdowskiA224/"
