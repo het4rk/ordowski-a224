@@ -1,11 +1,11 @@
-# Fresh clone of https://github.com/het4rk/ordowski-a224 at 3d40f5fe1f94b1370d3244c711d3a4df73699b2e
+# Fresh clone of https://github.com/het4rk/ordowski-a224 (origin/main a3e4890) with the pqr Lean files applied; identical to Lean sources at 13cfedcbb36f4b5472bf1f8b5d12e5c1fd6797d4
 # Mathlib .lake/packages reused from an identical lake-manifest (Mathlib 1f414401); project files compiled from scratch.
-# Command: lake build
-⚠ [9020/9029] Built OrdowskiA224.Defs (179s)
+# Run 1: `lake build` -- FiniteCheck was killed by the OS (exit 137, out of memory) while FiniteCheck3 built in parallel on a shared 15 GB machine.
+# Run 2: `lake build` (resumed, same tree) -- Build completed successfully. CI now builds the two finite checks sequentially.
+# ===== Run 1 =====
+⚠ [9020/9032] Built OrdowskiA224.Defs (6.3s)
 warning: OrdowskiA224/Defs.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
-⚠ [9021/9029] Built OrdowskiA224.FiniteCheck (250s)
-warning: OrdowskiA224/FiniteCheck.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
-⚠ [9022/9029] Built OrdowskiA224.Count (238s)
+⚠ [9021/9032] Built OrdowskiA224.Count (13s)
 warning: OrdowskiA224/Count.lean:14:19: `if_neg` has been deprecated: Use `ite_eq_right` instead
 
 Hint: Replace the deprecated name:
@@ -22,7 +22,11 @@ warning: OrdowskiA224/Count.lean:61:26: `if_neg` has been deprecated: Use `ite_e
 
 Hint: Replace the deprecated name:
   i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
-⚠ [9023/9029] Built OrdowskiA224.Basic (128s)
+✖ [9022/9032] Building OrdowskiA224.FiniteCheck (60s)
+warning: OrdowskiA224/FiniteCheck.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+trace: .> LEAN_PATH=/workspace/novel-proof/NovelProof/.lake/packages/Cli/.lake/build/lib/lean:/workspace/novel-proof/NovelProof/.lake/packages/batteries/.lake/build/lib/lean:/workspace/novel-proof/NovelProof/.lake/packages/Qq/.lake/build/lib/lean:/workspace/novel-proof/NovelProof/.lake/packages/aesop/.lake/build/lib/lean:/workspace/novel-proof/NovelProof/.lake/packages/proofwidgets/.lake/build/lib/lean:/workspace/novel-proof/NovelProof/.lake/packages/importGraph/.lake/build/lib/lean:/workspace/novel-proof/NovelProof/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/workspace/novel-proof/NovelProof/.lake/packages/plausible/.lake/build/lib/lean:/workspace/novel-proof/NovelProof/.lake/packages/mathlib/.lake/build/lib/lean:/workspace/a224-fresh/.lake/build/lib/lean /home/box/.elan/toolchains/leanprover--lean4---v4.35.0-rc4/bin/lean /workspace/a224-fresh/OrdowskiA224/FiniteCheck.lean -o /workspace/a224-fresh/.lake/build/lib/lean/OrdowskiA224/FiniteCheck.olean -i /workspace/a224-fresh/.lake/build/lib/lean/OrdowskiA224/FiniteCheck.ilean -c /workspace/a224-fresh/.lake/build/ir/OrdowskiA224/FiniteCheck.c --setup /workspace/a224-fresh/.lake/build/ir/OrdowskiA224/FiniteCheck.setup.json --json
+error: Lean exited with code 137
+⚠ [9023/9032] Built OrdowskiA224.Basic (49s)
 warning: OrdowskiA224/Basic.lean:29:2: Try this: 
   haveI̵
 
@@ -39,8 +43,98 @@ The difference between `have` and `haveI` is that `haveI` inlines the value.
 But this is not relevant for proofs because of proof irrelevance.
 
 Note: This linter can be disabled with `set_option linter.style.haveILetI false`
-✔ [9024/9029] Built OrdowskiA224.PrimePowerCore (134s)
-⚠ [9025/9029] Built OrdowskiA224.Semiprime (134s)
+✔ [9025/9032] Built OrdowskiA224.PrimePowerCore (37s)
+⚠ [9026/9032] Built OrdowskiA224.PrimePower (37s)
+warning: OrdowskiA224/PrimePower.lean:16:19: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+warning: OrdowskiA224/PrimePower.lean:96:59: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+warning: OrdowskiA224/PrimePower.lean:149:59: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+warning: OrdowskiA224/PrimePower.lean:208:8: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+warning: OrdowskiA224/PrimePower.lean:211:8: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+⚠ [9028/9032] Built OrdowskiA224.FiniteCheck3 (177s)
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+Some required targets logged failures:
+- OrdowskiA224.FiniteCheck
+error: build failed
+EXIT 1
+
+# ===== Run 2 =====
+⚠ [9020/9032] Replayed OrdowskiA224.Defs
+warning: OrdowskiA224/Defs.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+⚠ [9021/9032] Replayed OrdowskiA224.Count
+warning: OrdowskiA224/Count.lean:14:19: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+warning: OrdowskiA224/Count.lean:30:2: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+warning: OrdowskiA224/Count.lean:61:26: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+⚠ [9022/9032] Replayed OrdowskiA224.Basic
+warning: OrdowskiA224/Basic.lean:29:2: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+warning: OrdowskiA224/Basic.lean:29:23: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+⚠ [9024/9032] Replayed OrdowskiA224.PrimePower
+warning: OrdowskiA224/PrimePower.lean:16:19: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+warning: OrdowskiA224/PrimePower.lean:96:59: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+warning: OrdowskiA224/PrimePower.lean:149:59: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+warning: OrdowskiA224/PrimePower.lean:208:8: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+warning: OrdowskiA224/PrimePower.lean:211:8: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+⚠ [9025/9032] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+⚠ [9026/9032] Built OrdowskiA224.FiniteCheck (75s)
+warning: OrdowskiA224/FiniteCheck.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+⚠ [9027/9032] Built OrdowskiA224.Semiprime (24s)
 warning: OrdowskiA224/Semiprime.lean:86:2: Try this: 
   haveI̵
 
@@ -81,28 +175,51 @@ The difference between `have` and `haveI` is that `haveI` inlines the value.
 But this is not relevant for proofs because of proof irrelevance.
 
 Note: This linter can be disabled with `set_option linter.style.haveILetI false`
-⚠ [9026/9029] Built OrdowskiA224.PrimePower (448s)
-warning: OrdowskiA224/PrimePower.lean:16:19: `if_neg` has been deprecated: Use `ite_eq_right` instead
+✔ [9028/9032] Built OrdowskiA224.Main (6.3s)
+⚠ [9029/9032] Built OrdowskiA224.ThreePrimes (23s)
+warning: OrdowskiA224/ThreePrimes.lean:261:6: Unused tactic linter: `push_cast` does nothing
 
-Hint: Replace the deprecated name:
-  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
-warning: OrdowskiA224/PrimePower.lean:96:59: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: OrdowskiA224/ThreePrimes.lean:271:2: Try this: 
+  haveI̵
 
-Hint: Replace the deprecated name:
-  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
-warning: OrdowskiA224/PrimePower.lean:149:59: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
 
-Hint: Replace the deprecated name:
-  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
-warning: OrdowskiA224/PrimePower.lean:208:8: `if_pos` has been deprecated: Use `ite_eq_left` instead
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+warning: OrdowskiA224/ThreePrimes.lean:271:36: Try this: 
+  haveI̵
 
-Hint: Replace the deprecated name:
-  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
-warning: OrdowskiA224/PrimePower.lean:211:8: `if_neg` has been deprecated: Use `ite_eq_right` instead
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
 
-Hint: Replace the deprecated name:
-  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
-✔ [9027/9029] Built OrdowskiA224.Main (130s)
-✔ [9028/9029] Built OrdowskiA224 (12s)
-Build completed successfully (9029 jobs).
-build exit 0
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+warning: OrdowskiA224/ThreePrimes.lean:272:2: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+warning: OrdowskiA224/ThreePrimes.lean:273:2: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+warning: OrdowskiA224/ThreePrimes.lean:274:2: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+✔ [9030/9032] Built OrdowskiA224.MainThree (5.7s)
+✔ [9031/9032] Built OrdowskiA224 (4.5s)
+Build completed successfully (9032 jobs).

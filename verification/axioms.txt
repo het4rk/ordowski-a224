@@ -10,3 +10,6 @@
 'OeisA224.aZ_prime' depends on axioms: [propext, Classical.choice, Quot.sound]
 'OeisA224.pp_even' depends on axioms: [propext, Classical.choice, Quot.sound]
 'OeisA224.pp_odd' depends on axioms: [propext, Classical.choice, Quot.sound]
+'OeisA224.conjecture_main_three' depends on axioms: [propext, Classical.choice, Quot.sound]
+'OeisA224.three_primes_case' depends on axioms: [propext, Classical.choice, Quot.sound]
+'OeisA224.finCheck3_true' depends on axioms: [propext]
