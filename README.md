@@ -1,4 +1,4 @@
-# Ordowski's conjecture on squares modulo n (OEIS A000224): even numbers, prime powers and semiprimes
+# Ordowski's conjecture on squares modulo n (OEIS A000224): even numbers, prime powers, and products of two or three primes
 
 [![Lean build](https://github.com/het4rk/ordowski-a224/actions/workflows/lean.yml/badge.svg)](https://github.com/het4rk/ordowski-a224/actions/workflows/lean.yml)
 
@@ -7,11 +7,11 @@
 
 ## Result
 
-Let `a(n)` be the number of squares modulo `n` ([A000224](https://oeis.org/A000224)). T. Ordowski (2025) conjectured that for `n > 1`, `n` is an odd prime ⟺ `n² ≡ 1 (mod a(n)(a(n)−1))`. The conjecture is listed as `research open` in [google-deepmind/formal-conjectures](https://github.com/google-deepmind/formal-conjectures) (`FormalConjectures/OEIS/224.lean`). We prove it for all even `n`, all prime powers and all products of two distinct odd primes, stated against the exact upstream definition of `a`.
+Let `a(n)` be the number of squares modulo `n` ([A000224](https://oeis.org/A000224)). T. Ordowski (2025) conjectured that for `n > 1`, `n` is an odd prime ⟺ `n² ≡ 1 (mod a(n)(a(n)−1))`. The conjecture is listed as `research open` in [google-deepmind/formal-conjectures](https://github.com/google-deepmind/formal-conjectures) (`FormalConjectures/OEIS/224.lean`). We prove it for all even `n`, all prime powers, all products of two distinct odd primes and all products of three distinct odd primes, stated against the exact upstream definition of `a`.
 
 ## Status
 
-**Partial result. The full conjecture remains open.** Proved: every `n > 1` that is even, a prime power `p^k` (k ≥ 1), or a product of two distinct odd primes. Open: squarefree `n` with ≥ 3 prime factors, and odd composites such as `p²q`.
+**Partial result. The full conjecture remains open.** Proved: every `n > 1` that is even, a prime power `p^k` (k ≥ 1), a product `pq` of two distinct odd primes, or a product `pqr` of three distinct odd primes. Open: squarefree `n` with ≥ 4 prime factors, and odd composites with a repeated factor and ≥ 2 distinct primes (such as `p²q`).
 
 ## Theorems and Lean names
 
@@ -24,6 +24,8 @@ Let `a(n)` be the number of squares modulo `n` ([A000224](https://oeis.org/A0002
 | `stangl` | Stangl's closed form for `a (p^k)` |
 | `prime_power_case` | odd prime powers `p^k`, `k ≥ 2` |
 | `semiprime_case` | `n = pq`, distinct odd primes (finite check by `decide +kernel`) |
+| `three_primes_case`, `three_primes_case'` | `n = pqr`, distinct odd primes (size bound p ≤ 400, quadratic-in-`r` bound on `q`, ~94k-case `decide +kernel` check `finCheck3_true`) |
+| `conjecture_main_three` | the conjecture for `n` even, `p^k`, `pq`, or `pqr` (exact upstream conclusion) |
 
 No `sorry`, no `native_decide`, no extra hypotheses.
 
@@ -52,6 +54,9 @@ lake env lean Axioms.lean
 'OeisA224.aZ_prime' depends on axioms: [propext, Classical.choice, Quot.sound]
 'OeisA224.pp_even' depends on axioms: [propext, Classical.choice, Quot.sound]
 'OeisA224.pp_odd' depends on axioms: [propext, Classical.choice, Quot.sound]
+'OeisA224.conjecture_main_three' depends on axioms: [propext, Classical.choice, Quot.sound]
+'OeisA224.three_primes_case' depends on axioms: [propext, Classical.choice, Quot.sound]
+'OeisA224.finCheck3_true' depends on axioms: [propext]
 ```
 
 ## Machine-check attestation
@@ -76,13 +81,13 @@ theorem conjecture (n : ℕ) (hn : 1 < n) :
     (n.Prime ∧ n ≠ 2) ↔ n ^ 2 ≡ 1 [MOD a n * (a n - 1)] := by
   sorry
 ```
-`OeisA224.a` in `OrdowskiA224/Defs.lean` has exactly this body, and `OeisA224.conjecture_main` concludes exactly `(n.Prime ∧ n ≠ 2) ↔ n ^ 2 ≡ 1 [MOD a n * (a n - 1)]` under its case hypothesis.
+`OeisA224.a` in `OrdowskiA224/Defs.lean` has exactly this body, and `OeisA224.conjecture_main` / `OeisA224.conjecture_main_three` conclude exactly `(n.Prime ∧ n ≠ 2) ↔ n ^ 2 ≡ 1 [MOD a n * (a n - 1)]` under its case hypothesis.
 
 ## Citation
 
 See [`CITATION.cff`](CITATION.cff):
 
-> Hetark Shah (AI-assisted by Grok), *Ordowski's conjecture on squares modulo n (OEIS A000224): even numbers, prime powers and semiprimes*, 2026. https://github.com/het4rk/ordowski-a224
+> Hetark Shah (AI-assisted by Grok), *Ordowski's conjecture on squares modulo n (OEIS A000224): even numbers, prime powers, and products of two or three primes*, 2026. https://github.com/het4rk/ordowski-a224
 
 ## License
 

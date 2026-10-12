@@ -18,11 +18,11 @@
 \newcommand{\lean}[1]{{\ttfamily\def\_{\textunderscore\allowbreak}\def\/{/\allowbreak}#1}}
 \author{Hetark Shah, AI-assisted by Grok}
 \date{October 12, 2026}
-\title{On Ordowski's characterization of odd primes by the number of squares modulo $n$ (OEIS A000224): even numbers, prime powers and semiprimes, formalized in Lean~4}
+\title{On Ordowski's characterization of odd primes by the number of squares modulo $n$ (OEIS A000224): even numbers, prime powers, and products of two or three distinct primes, formalized in Lean~4}
 \begin{document}
 \maketitle
 \begin{abstract}
-Let $a(n)$ be the number of squares modulo $n$ (OEIS A000224~\cite{oeis}). T.~Ordowski conjectured that for $n>1$, $n^2\equiv1\pmod{a(n)(a(n)-1)}$ holds if and only if $n$ is an odd prime. \textbf{The full conjecture remains open.} We prove it for every $n>1$ that is even, a prime power $p^k$ ($k\ge1$), or a product $pq$ of two distinct odd primes. The prime-power case uses Stangl's formula for $a(p^k)$~\cite{stangl}, which we also formalize. The semiprime case combines a size bound with a divisibility bound and a finite check. Everything is formalized in Lean~4 with Mathlib against the exact definition of $a$ in Google DeepMind's \texttt{formal-conjectures} repository~\cite{fc}. The development uses no \texttt{sorry} and no \texttt{native\_decide}, and only the standard axioms.
+Let $a(n)$ be the number of squares modulo $n$ (OEIS A000224~\cite{oeis}). T.~Ordowski conjectured that for $n>1$, $n^2\equiv1\pmod{a(n)(a(n)-1)}$ holds if and only if $n$ is an odd prime. \textbf{The full conjecture remains open.} We prove it for every $n>1$ that is even, a prime power $p^k$ ($k\ge1$), a product $pq$ of two distinct odd primes, or a product $pqr$ of three distinct odd primes. The prime-power case uses Stangl's formula for $a(p^k)$~\cite{stangl}, which we also formalize. The semiprime case combines a size bound with a divisibility bound and a finite check. The three-prime case bounds the smallest prime by a size argument, views the congruence as a quadratic in the largest prime to bound the middle one, and finishes with a kernel-checked finite verification of about $9.4\times10^4$ cases. Everything is formalized in Lean~4 with Mathlib against the exact definition of $a$ in Google DeepMind's \texttt{formal-conjectures} repository~\cite{fc}. The development uses no \texttt{sorry} and no \texttt{native\_decide}, and only the standard axioms.
 \end{abstract}
 
 \section{Introduction}
@@ -37,9 +37,9 @@ The count $a(n)$ is multiplicative, and Stangl~\cite{stangl} gives its value at 
 
 \section{Statement}
 \begin{theorem}\label{main}
-Conjecture~\ref{conj} holds for every $n>1$ that is (i) even, (ii) a prime power $p^k$ with $k\ge1$, or (iii) a product $pq$ of distinct odd primes $p,q$.
+Conjecture~\ref{conj} holds for every $n>1$ that is (i) even, (ii) a prime power $p^k$ with $k\ge1$, or (iii) a product $pq$ of distinct odd primes $p,q$, or (iv) a product $pqr$ of distinct odd primes $p,q,r$.
 \end{theorem}
-\noindent Cases not covered include squarefree $n$ with three or more odd prime factors, and odd $n$ such as $p^2q$ that have a repeated prime factor and at least two distinct primes.
+\noindent Cases not covered include squarefree $n$ with four or more odd prime factors, and odd $n$ such as $p^2q$ that have a repeated prime factor and at least two distinct primes.
 
 \section{Proof overview}
 \subsection{Preliminaries}
@@ -70,6 +70,25 @@ Put $P=(p+1)(q+1)$, so that $16\,s(s-1)=P(P-4)$. Suppose $Q\,s(s-1)=(pq)^2-1$, s
 \emph{Step 4: finite check.} For each prime $p\in[3,61]$ and each divisor $d=q+1$ of $16(p^2-1)$ with $q>p$ odd, direct computation shows $s(s-1)\nmid (pq)^2-1$. There are only finitely many such pairs.
 \end{proof}
 
+\subsection{Three distinct odd primes}
+\begin{theorem}\label{pqr}
+Let $3\le p<q<r$ be integers with $p$ prime, and let $s$ satisfy $8s=(p+1)(q+1)(r+1)$. Then $s(s-1)\nmid (pqr)^2-1$.
+\end{theorem}
+Primality of $q$ and $r$ is not needed. By Lemma~\ref{mult}, $a(pqr)=s$ for distinct odd primes, which gives case (iv) of Theorem~\ref{main}.
+\begin{proof}
+Let $n=pqr$ and $P=(p+1)(q+1)(r+1)=8s$, and suppose $Q\,s(s-1)=n^2-1$. Then $Q\,P(P-8)=64(n^2-1)$.
+
+\emph{Step 1: $1\le Q\le 63$.} Since $P-8\ge n$, we have $P(P-8)>n^2-1>0$.
+
+\emph{Step 2: $p\le 400$.} From $p\le q\le r$ we get $p^3P\le (p+1)^3n$. Combined with $64(n^2-1)\le 63P^2$ this gives $\bigl(64p^6-63(p+1)^6\bigr)n^2\le 64p^6$. For $p\ge 401$ the bracket is at least $65$, and $n^2>p^6$, a contradiction.
+
+\emph{Step 3: a quadratic in $r$.} Put $A=(p+1)(q+1)$ and $B=pq$. Expanding the identity gives
+\[(64B^2-QA^2)\,r^2=(2QA^2-8QA)\,r+(QA^2-8QA+64),\]
+where both coefficients on the right are positive. Hence $c_2:=64B^2-QA^2>0$. With $K=Q(p+1)^2$ and $d=64p^2-K$ we have $c_2=dq^2-K(2q+1)$, so $d>0$. Moreover $c_2r\le c_1+c_0<3QA^2$ and $q<r$, so $c_2q<3K(q+1)^2$. If $q\ge 8$ and $dq\ge 6K$, then $c_2q\ge 4Kq^2-Kq>3K(q+1)^2$, a contradiction. Therefore $q\le 6K/d+8$. The near-misses $Q(1+1/p)^2=64$, namely $(p,Q)=(3,36)$ and $(7,49)$, have $d=0$ and are excluded.
+
+\emph{Step 4: finite check.} For each prime $p\le 400$, each $Q\le 63$ with $d>0$, and each $q\le 6K/d+8$ with $q>p$ (about $9.4\times10^4$ triples), the quadratic in Step~3 has no natural root $r>q$. A root would equal $(c_1+c)/(2c_2)$, where $c=\sqrt{c_1^2+4c_2c_0}$. The check proposes $c$ by Newton's method and verifies $c^2\le D<(c+1)^2$ directly, so the correctness of Newton's method is never used.
+\end{proof}
+
 \subsection{Odd prime powers}
 \begin{lemma}[Stangl~\cite{stangl}]\label{stangl}
 For an odd prime $p$ and $k\ge 2$, $a(p^k)=a(p^{k-2})+\tfrac12 p^{k-1}(p-1)$. Consequently $2(p+1)\,a(p^k)=p^{k+1}+p+2$ if $k$ is even and $p^{k+1}+2p+1$ if $k$ is odd.
@@ -87,7 +106,7 @@ Let $X=p^k$ and $M=2(p+1)$, and write $Q\,s(s-1)=X^2-1$. Multiplying by $M^2$ gi
 
 
 \section{Formalization}
-All declarations are in namespace \lean{OeisA224}. The definition \lean{a} in \lean{Defs.lean} is copied verbatim from \texttt{formal-conjectures}. The theorem \lean{conjecture\_main} concludes exactly \lean{(n.Prime \(\wedge\) n \(\neq\) 2) \(\leftrightarrow\) n \textasciicircum{} 2 \(\equiv\) 1 [MOD a n * (a n - 1)]} under its case hypothesis.
+All declarations are in namespace \lean{OeisA224}. The definition \lean{a} in \lean{Defs.lean} is copied verbatim from \texttt{formal-conjectures}. The theorems \lean{conjecture\_main} and \lean{conjecture\_main\_three} conclude exactly \lean{(n.Prime \(\wedge\) n \(\neq\) 2) \(\leftrightarrow\) n \textasciicircum{} 2 \(\equiv\) 1 [MOD a n * (a n - 1)]} under its case hypothesis.
 \begin{table}[ht]
 \centering
 \begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X@{}}
@@ -100,7 +119,10 @@ Lean name (file) & Statement \\
 \lean{pq\_reduction}, \lean{pq\_case}, \lean{semiprime\_case} (\lean{Semiprime.lean}) & Theorem~\ref{pq} and case (iii) \\
 \lean{pp\_even}, \lean{pp\_odd} (\lean{PrimePowerCore.lean}) & arithmetic core of Theorem~\ref{pp} \\
 \lean{stangl}, \lean{prime\_power\_case} (\lean{PrimePower.lean}) & Lemma~\ref{stangl}; Theorem~\ref{pp} \\
-\lean{conjecture\_of\_even\_or\_prime\_or\_semiprime}, \lean{conjecture\_main} (\lean{Main.lean}) & Theorem~\ref{main} \\
+\lean{conjecture\_of\_even\_or\_prime\_or\_semiprime}, \lean{conjecture\_main} (\lean{Main.lean}) & Theorem~\ref{main}, cases (i)--(iii) \\
+\lean{finCheck3\_true} (\lean{FiniteCheck3.lean}) & Step~4 of Theorem~\ref{pqr}, \lean{decide +kernel}, in 10 chunks \\
+\lean{pqr\_Q}, \lean{pqr\_p\_le}, \lean{pqr\_quad}, \lean{pqr\_bounds}, \lean{rootFree\_spec}, \lean{pqr\_no}, \lean{three\_primes\_case} (\lean{ThreePrimes.lean}) & Theorem~\ref{pqr} \\
+\lean{three\_primes\_case'}, \lean{conjecture\_main\_three} (\lean{MainThree.lean}) & Theorem~\ref{main}, cases (i)--(iv) \\
 \bottomrule
 \end{tabularx}
 \caption{Theorems and their Lean names.}\label{tab:lean}
@@ -116,13 +138,13 @@ lake exe cache get
 lake build
 lake env lean Axioms.lean
 \end{verbatim}
- \lean{FiniteCheck.lean} takes a few minutes and several GB of RAM.
-\item Axioms: all 12 declarations listed in \texttt{Axioms.lean}, including \lean{conjecture\_main}, depend only on \texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound}.
+ \lean{FiniteCheck.lean} and \lean{FiniteCheck3.lean} each take about 4--5 minutes and several GB of RAM.
+\item Axioms: all 15 declarations listed in \texttt{Axioms.lean}, including \lean{conjecture\_main\_three}, depend only on standard axioms: \texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound} (\lean{finCheck3\_true} uses only \texttt{propext}).
 \item Attestation: \texttt{verification/} contains the fresh-clone build log, the axiom output and \texttt{VERIFICATION.md}, which records the commit, the toolchain and SHA-256 hashes of the Lean sources. CI (\url{https://github.com/het4rk/ordowski-a224/actions/workflows/lean.yml}) rebuilds the project on every push. It rejects \texttt{sorry} and non-whitelisted axioms, and uploads the build log and axiom report as artifacts.
 \end{itemize}
 
 \section{Limitations}
-\textbf{The full conjecture remains open.} We do not treat squarefree $n$ with three or more prime factors, or general odd composites with a repeated factor and two or more distinct primes (for example $p^2q$). One part of the method extends but is not formalized: the argument of Step~3 shows that if $n=mq$ satisfies the congruence, with $q$ prime and $q\nmid m$, then $q+1\mid4(m^2-1)$. The size argument of Step~2, however, does not bound the second-smallest prime once there are three or more factors, so the method does not directly extend. The independent computational checks in \texttt{scripts/} are not part of the formal proof.
+\textbf{The full conjecture remains open.} Two cases are untreated: squarefree odd $n$ with $k\ge4$ prime factors, and odd composites with a repeated prime factor and at least two distinct primes (for example $p^2q$). For squarefree $n$ with $k$ factors, the argument of Theorem~\ref{pqr} gives $Q<4^k$ and a bound on the smallest prime of order $k\,4^k$. For each fixed $k$ an iterated version of Steps~2--4 reduces the problem to a finite search, but the search grows far too quickly to check in the kernel even for $k=4$. A proof uniform in $k$ would need a new idea. The independent computational checks in \texttt{scripts/} are not part of the formal proof.
 
 \begin{thebibliography}{9}
 \bibitem{oeis} OEIS Foundation Inc., \emph{A000224: Number of squares mod n}, \url{https://oeis.org/A000224}.
