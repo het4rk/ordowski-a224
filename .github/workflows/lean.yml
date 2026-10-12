@@ -9,6 +9,7 @@ defaults:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
       - name: Install elan
@@ -20,7 +21,12 @@ jobs:
         run: lake exe cache get
       - name: Clean build
         working-directory: .
-        run: lake build 2>&1 | tee build_ci.txt
+        # The two kernel-checked finite verifications (~4-5 min each, several GB of RAM)
+        # are built one at a time to avoid running out of memory.
+        run: |
+          lake build OrdowskiA224.FiniteCheck 2>&1 | tee build_ci.txt
+          lake build OrdowskiA224.FiniteCheck3 2>&1 | tee -a build_ci.txt
+          lake build 2>&1 | tee -a build_ci.txt
       - name: Axiom report
         working-directory: .
         run: lake env lean Axioms.lean 2>&1 | tee axioms_ci.txt

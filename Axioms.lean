@@ -17,3 +17,6 @@ Expected output: only `propext`, `Classical.choice`, `Quot.sound`.
 #print axioms OeisA224.aZ_prime
 #print axioms OeisA224.pp_even
 #print axioms OeisA224.pp_odd
+#print axioms OeisA224.conjecture_main_three
+#print axioms OeisA224.three_primes_case
+#print axioms OeisA224.finCheck3_true
