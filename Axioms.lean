@@ -1,4 +1,9 @@
 import OrdowskiA224
+
+/-!
+Axiom report for the Ordowski (A000224) development.
+Expected output: only `propext`, `Classical.choice`, `Quot.sound`.
+-/
 #print axioms OeisA224.conjecture_main
 #print axioms OeisA224.stangl
 #print axioms OeisA224.prime_power_case

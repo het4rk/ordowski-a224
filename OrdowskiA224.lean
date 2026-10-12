@@ -6,3 +6,11 @@ import OrdowskiA224.FiniteCheck
 import OrdowskiA224.Semiprime
 import OrdowskiA224.PrimePower
 import OrdowskiA224.Main
+
+/-!
+# Partial results on Ordowski's conjecture (OEIS A000224)
+
+Root module. The full conjecture remains open; `OeisA224.conjecture_main` proves it for
+even `n`, prime powers, and products of two distinct odd primes.
+Author: Hetark Shah, AI-assisted by Grok.
+-/

@@ -5,3 +5,11 @@ paper/*.log
 paper/*.out
 paper/*.fls
 paper/*.fdb_latexmk
+build_ci.txt
+axioms_ci.txt
+*.aux
+*.log
+*.out
+*.fls
+*.fdb_latexmk
+*.synctex.gz
