@@ -9,7 +9,7 @@ defaults:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 240
     steps:
       - uses: actions/checkout@v4
       - name: Install elan
@@ -21,11 +21,17 @@ jobs:
         run: lake exe cache get
       - name: Clean build
         working-directory: .
-        # The two kernel-checked finite verifications (~4-5 min each, several GB of RAM)
-        # are built one at a time to avoid running out of memory.
+        # The kernel-checked finite verifications (several GB of RAM each) are built one module
+        # at a time, then the rest of the library.
         run: |
           lake build OrdowskiA224.FiniteCheck 2>&1 | tee build_ci.txt
           lake build OrdowskiA224.FiniteCheck3 2>&1 | tee -a build_ci.txt
+          lake build OrdowskiA224.FiniteCheckPQ2 2>&1 | tee -a build_ci.txt
+          # leaves first, so each `lake build` compiles exactly one heavy module
+          for m in P5Q23_b0 P5Q23_b1 P5Q23_b2 P5Q23_b3 P5Q23_b4 P5Q23_b5 P5Q23_b6 P5Q23_b7 P5Q23_s1 P5Q23_s2 P5Q23_s3 P5Q23_s4 P5Q23_s5 P5_Q21 P5_Q22 P5_Q23 P5_Q24 P5_Q25 P5_Q26 P5_Q27 P5_Q28 P5_Q29 P5_Q30 P5_0 P5_1 P5_2 P5_3 P5 P3 P7 P11 P13 P17 P19 P23 P29 P31 P37 P41 P43 P47 P53 P59 P61 P67; do
+            lake build "OrdowskiA224.FCPQ.$m" 2>&1 | tee -a build_ci.txt
+          done
+          lake build OrdowskiA224.FiniteCheckPQAll 2>&1 | tee -a build_ci.txt
           lake build 2>&1 | tee -a build_ci.txt
       - name: Axiom report
         working-directory: .
