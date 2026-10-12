@@ -1,0 +1,96 @@
+\documentclass[11pt]{amsart}
+\usepackage{amssymb,hyperref,url}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{remark}\newtheorem{remark}[theorem]{Remark}
+\title[Ordowski's conjecture on squares modulo $n$]{On Ordowski's characterization of odd primes by the number of squares modulo $n$: prime powers and semiprimes, formalized in Lean~4}
+\author{Hetark Shah}
+\thanks{AI-assisted by Grok.}
+\date{October 12, 2026}
+\begin{document}
+\begin{abstract}
+Let $a(n)$ be the number of squares modulo $n$ (OEIS A000224). T.~Ordowski conjectured that for $n>1$, $n^2\equiv 1 \pmod{a(n)(a(n)-1)}$ holds if and only if $n$ is an odd prime. We prove the conjecture for every $n$ that is even, a prime power, or a product of two distinct odd primes. For prime powers we use Stangl's formula for $a(p^k)$, which we also formalize, together with a congruence argument modulo $p$. For semiprimes we combine a size argument bounding the smaller prime by $61$, a divisibility argument bounding the larger prime, and a finite check. All results are formalized in Lean~4 with Mathlib against the exact definition of $a$ used in Google DeepMind's \texttt{formal-conjectures} repository. The development uses no \texttt{sorry}, no \texttt{native\_decide}, and only the standard axioms.
+\end{abstract}
+\maketitle
+
+\section{Introduction}
+For $n\ge 1$ let $a(n)=\#\{k^2 \bmod n : 0\le k<n\}$ be the number of squares in $\mathbb{Z}/n\mathbb{Z}$ (OEIS \href{https://oeis.org/A000224}{A000224}).
+
+\begin{conjecture}[Ordowski]\label{conj}
+For $n>1$: $n$ is an odd prime $\iff n^2\equiv 1 \pmod{a(n)(a(n)-1)}$.
+\end{conjecture}
+
+The conjecture appears as a comment on A000224 (T.~Ordowski, Apr.~13, 2025), together with the remark that it holds up to $n=10^8$ (M.~Marcus). It is included as an open problem (\texttt{category research open}) in the \texttt{formal-conjectures} repository~\cite{fc}, file \texttt{FormalConjectures/OEIS/224.lean}. The direction ``odd prime $\Rightarrow$ congruence'' is immediate, since $a(p)=(p+1)/2$. The open direction is that no composite $n$ satisfies the congruence.
+
+\begin{theorem}\label{main}
+Conjecture~\ref{conj} holds for every $n>1$ that is even, a prime power $p^k$ ($k\ge1$), or of the form $n=pq$ with $p\ne q$ odd primes.
+\end{theorem}
+
+\section{Preliminaries}
+\begin{lemma}\label{mult}
+$a(n)=\#\{x^2 : x\in\mathbb{Z}/n\}$; $a$ is multiplicative; and $a(p)=(p+1)/2$ for odd primes $p$.
+\end{lemma}
+\begin{proof}
+The first claim holds because reduction mod $n$ is a bijection $\{0,\dots,n-1\}\to\mathbb{Z}/n$. If $\gcd(m,n)=1$, the CRT ring isomorphism $\mathbb{Z}/mn\cong \mathbb{Z}/m\times\mathbb{Z}/n$ commutes with squaring, so it maps the set of squares onto the product of the two sets of squares. For an odd prime $p$, the squares are the values $k^2$ with $0\le k\le (p-1)/2$, since $x^2=(-x)^2$. These values are distinct: $k^2=l^2$ forces $p\mid (k-l)(k+l)$, and $0\le k+l<p$.
+\end{proof}
+
+\section{The even case}
+If $n$ is even, then $n^2-1$ is odd, while $a(n)(a(n)-1)$ is a product of two consecutive integers and hence even. So $n^2\not\equiv 1$. (If $a(n)(a(n)-1)=0$, the congruence would say $n^2=1$, which is impossible for $n>1$.)
+
+\section{The semiprime case}
+\begin{theorem}\label{pq}
+Let $p<q$ be odd integers with $p\ge 3$ prime, and let $s=(p+1)(q+1)/4$. Then $s(s-1)\nmid (pq)^2-1$.
+\end{theorem}
+Primality of $q$ is not needed. By Lemma~\ref{mult}, $a(pq)=s$ for distinct odd primes, so Theorem~\ref{pq} gives the semiprime case of Theorem~\ref{main}.
+\begin{proof}
+Put $P=(p+1)(q+1)$, so that $16\,s(s-1)=P(P-4)$. Suppose $Q\,s(s-1)=(pq)^2-1$, so $Q\,P(P-4)=16((pq)^2-1)$.
+
+\emph{Step 1: $Q\le 15$.} Expanding, $P(P-4)-((pq)^2-1)=2pq(p+q+1)-4pq+(p+q+1)^2-4(p+q+1)+1>0$. Hence $Q<16$.
+
+\emph{Step 2: $p\le 61$.} By Step~1, $16((pq)^2-1)\le 15P(P-4)<15P^2$. Suppose $p\ge 62$. Since $q>p$ we have $(q+1)p\le (p+1)q$, so $P^2p^2\le (p+1)^4q^2$. Also $15(p+1)^4\le 16p^4-16$ for $p\ge 62$. Together with $q\ge p$ this gives $15P^2\le 16((pq)^2-1)$, a contradiction.
+
+\emph{Step 3: $q+1\mid 16(p^2-1)$.} Since $q+1\mid P$, we get $q+1\mid 16((pq)^2-1)$. Also $16((pq)^2-1)-16(p^2-1)=16p^2(q^2-1)$ is divisible by $q+1$.
+
+\emph{Step 4: finite check.} For each prime $p\in[3,61]$ and each divisor $d=q+1$ of $16(p^2-1)$ with $q>p$ odd, direct computation shows $s(s-1)\nmid (pq)^2-1$. There are only finitely many such pairs.
+\end{proof}
+
+\section{Odd prime powers}
+\begin{lemma}[Stangl~\cite{stangl}]\label{stangl}
+For an odd prime $p$ and $k\ge 2$, $a(p^k)=a(p^{k-2})+\tfrac12 p^{k-1}(p-1)$. Consequently $2(p+1)\,a(p^k)=p^{k+1}+p+2$ if $k$ is even and $p^{k+1}+2p+1$ if $k$ is odd.
+\end{lemma}
+\begin{proof}
+Let $N=p^k$. A square $x^2 \bmod N$ is divisible by $p$ iff $p\mid x$. Writing $x=pt$ gives $(pt)^2 \bmod p^2M=p^2(t^2\bmod M)$ with $M=p^{k-2}$, so the squares divisible by $p$ are exactly $p^2$ times the squares modulo $M$. For the squares prime to $p$: if $x,y\in[0,N/2)$ are prime to $p$ and $N\mid (y-x)(y+x)$, then $p$ cannot divide both factors (as $p$ is odd and $p\nmid y$), so $N$ divides one factor, forcing $x=y$. Replacing $x$ by $N-x$, every unit square has such a representative. Hence the unit squares number $\varphi(N)/2$. The closed form follows by induction from $a(1)=1$ and $a(p)=(p+1)/2$.
+\end{proof}
+\begin{theorem}\label{pp}
+If $p$ is an odd prime, $k\ge 2$, and $s$ satisfies the identity of Lemma~\ref{stangl}, then $s(s-1)\nmid p^{2k}-1$. Consequently, $(p^k)^2\not\equiv 1\pmod{a(p^k)(a(p^k)-1)}$, and Conjecture~\ref{conj} holds for all odd prime powers.
+\end{theorem}
+\begin{proof}[Sketch]
+Let $X=p^k$ and $M=2(p+1)$, and write $Q\,s(s-1)=X^2-1$. Multiplying by $M^2$ gives $Q(Ms)(Ms-M)=M^2(X^2-1)$. For even $k$, reducing modulo $p$ gives $p\mid 4(p+1)^2$, which is impossible. For odd $k\ge 3$, a size estimate gives $1\le Q\le 7$, and reducing modulo $p$ gives $p\mid Q-4$. If $Q=4$, the equation becomes $(2p+1)X^2=2p^2X+p^2$, which is impossible since $X>p$. Otherwise $p=3$ and $Q\in\{1,7\}$, and both cases are ruled out by elementary inequalities.
+\end{proof}
+
+
+\section{Lean formalization}
+The repository accompanying this paper (Lean \texttt{v4.35.0-rc4}, Mathlib tag \texttt{v4.35.0-rc4}) contains:
+\begin{itemize}
+\item \texttt{Defs.lean}: the definition of $a$, copied verbatim from \texttt{formal-conjectures}.
+\item \texttt{Count.lean}: \texttt{a\_eq\_aZ}, \texttt{aZ\_mul} (CRT) and \texttt{aZ\_prime}, i.e.\ Lemma~\ref{mult}.
+\item \texttt{Basic.lean}: \texttt{even\_case} and \texttt{prime\_direction}.
+\item \texttt{FiniteCheck.lean}: Step~4, checked by \texttt{decide +kernel} (kernel evaluation, no \texttt{native\_decide}).
+\item \texttt{Semiprime.lean}: \texttt{pq\_reduction} (Steps~1--3), \texttt{pq\_case} and \texttt{semiprime\_case}.
+\item \texttt{PrimePower.lean}: \texttt{card\_Sq\_split}, \texttt{two\_mul\_card\_unit\_Sq}, \texttt{stangl} (Lemma~\ref{stangl}) and \texttt{prime\_power\_case}.\item \texttt{Main.lean}: \texttt{conjecture\_main}, i.e.\ Theorem~\ref{main}, stated in the exact form of \texttt{OeisA224.conjecture}.
+\item \texttt{PrimePowerCore.lean}: the arithmetic core of Theorem~\ref{pp} (\texttt{pp\_even}, \texttt{pp\_odd}).
+\end{itemize}
+\texttt{\#print axioms} reports only \texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound} for every theorem.
+
+\section{Novelty and related work}
+As of October 12, 2026, the OEIS entry lists the conjecture as open, and \texttt{formal-conjectures} marks it \texttt{research open}. Searches of the web, the repository's issues and pull requests, and AI-paper indexes found no proof, partial or complete. The ingredients (multiplicativity and Stangl's formula~\cite{stangl}; see also Finch--Sebah~\cite{fs}) are classical. The even case is trivial. To our knowledge, the semiprime and prime-power cases are new, although the arguments are elementary. The squarefree case with three or more prime factors, and general odd composites, remain open. \emph{Remark (not formalized).} The method of Step~3 still shows that if $n=mq$ satisfies the congruence, with $q$ prime and $q\nmid m$, then $q+1\mid 4(m^2-1)$. For three or more prime factors, however, the size argument of Step~2 no longer bounds the second-smallest prime, so our method does not directly extend.
+
+\begin{thebibliography}{9}
+\bibitem{fc} Google DeepMind, \emph{formal-conjectures}, \url{https://github.com/google-deepmind/formal-conjectures}, file \texttt{FormalConjectures/OEIS/224.lean}.
+\bibitem{oeis} OEIS Foundation, \emph{A000224: Number of squares mod n}, \url{https://oeis.org/A000224}.
+\bibitem{stangl} W.~D.~Stangl, Counting squares in $\mathbb{Z}_n$, \emph{Math.\ Mag.} \textbf{69} (1996), 285--289.
+\bibitem{fs} S.~R.~Finch and P.~Sebah, Squares and cubes modulo $n$, arXiv:math/0604465.
+\bibitem{mathlib} The mathlib Community, The Lean mathematical library, CPP 2020.
+\end{thebibliography}
+\end{document}
