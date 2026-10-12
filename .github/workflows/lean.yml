@@ -1,16 +1,30 @@
 name: Lean build
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+defaults:
+  run:
+    shell: bash -o pipefail {0}
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: leanprover/lean-action@v1
-        with:
-          use-mathlib-cache: true
-      - name: Check axioms
+      - name: Install elan
         run: |
-          lake env lean Axioms.lean | tee axioms_ci.txt
-          ! grep -E "sorryAx|ofReduceBool" axioms_ci.txt
-      - name: No sorry
-        run: "! grep -rn 'sorry' OrdowskiA224/"
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Fetch Mathlib cache
+        working-directory: .
+        run: lake exe cache get
+      - name: Build
+        working-directory: .
+        run: lake build 2>&1 | tee build_ci.txt
+      - name: Axiom report
+        working-directory: .
+        run: lake env lean Axioms.lean 2>&1 | tee axioms_ci.txt
+      - name: No sorry warnings in build
+        run: "! grep -n \"declaration uses 'sorry'\" ./build_ci.txt"
+      - name: Check axioms
+        run: bash scripts/check_axioms.sh ./axioms_ci.txt
