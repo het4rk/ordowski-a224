@@ -1,81 +1,216 @@
-# Fresh clone of https://github.com/het4rk/ordowski-a224 (origin/main a3e4890) with the pqr Lean files applied; identical to Lean sources at 13cfedcbb36f4b5472bf1f8b5d12e5c1fd6797d4
-# Mathlib .lake/packages reused from an identical lake-manifest (Mathlib 1f414401); project files compiled from scratch.
-# Run 1: `lake build` -- FiniteCheck was killed by the OS (exit 137, out of memory) while FiniteCheck3 built in parallel on a shared 15 GB machine.
-# Run 2: `lake build` (resumed, same tree) -- Build completed successfully. CI now builds the two finite checks sequentially.
-# ===== Run 1 =====
-⚠ [9020/9032] Built OrdowskiA224.Defs (6.3s)
-warning: OrdowskiA224/Defs.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
-⚠ [9021/9032] Built OrdowskiA224.Count (13s)
-warning: OrdowskiA224/Count.lean:14:19: `if_neg` has been deprecated: Use `ite_eq_right` instead
-
-Hint: Replace the deprecated name:
-  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
-warning: OrdowskiA224/Count.lean:30:2: Try this: 
-  haveI̵
-
-The goal is a proposition, so `have` is preferred over `haveI`.
-The difference between `have` and `haveI` is that `haveI` inlines the value.
-But this is not relevant for proofs because of proof irrelevance.
-
-Note: This linter can be disabled with `set_option linter.style.haveILetI false`
-warning: OrdowskiA224/Count.lean:61:26: `if_neg` has been deprecated: Use `ite_eq_right` instead
-
-Hint: Replace the deprecated name:
-  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
-✖ [9022/9032] Building OrdowskiA224.FiniteCheck (60s)
+✖ [9020/9020] Building OrdowskiA224.FiniteCheck (168s)
 warning: OrdowskiA224/FiniteCheck.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
-trace: .> LEAN_PATH=/workspace/novel-proof/NovelProof/.lake/packages/Cli/.lake/build/lib/lean:/workspace/novel-proof/NovelProof/.lake/packages/batteries/.lake/build/lib/lean:/workspace/novel-proof/NovelProof/.lake/packages/Qq/.lake/build/lib/lean:/workspace/novel-proof/NovelProof/.lake/packages/aesop/.lake/build/lib/lean:/workspace/novel-proof/NovelProof/.lake/packages/proofwidgets/.lake/build/lib/lean:/workspace/novel-proof/NovelProof/.lake/packages/importGraph/.lake/build/lib/lean:/workspace/novel-proof/NovelProof/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/workspace/novel-proof/NovelProof/.lake/packages/plausible/.lake/build/lib/lean:/workspace/novel-proof/NovelProof/.lake/packages/mathlib/.lake/build/lib/lean:/workspace/a224-fresh/.lake/build/lib/lean /home/box/.elan/toolchains/leanprover--lean4---v4.35.0-rc4/bin/lean /workspace/a224-fresh/OrdowskiA224/FiniteCheck.lean -o /workspace/a224-fresh/.lake/build/lib/lean/OrdowskiA224/FiniteCheck.olean -i /workspace/a224-fresh/.lake/build/lib/lean/OrdowskiA224/FiniteCheck.ilean -c /workspace/a224-fresh/.lake/build/ir/OrdowskiA224/FiniteCheck.c --setup /workspace/a224-fresh/.lake/build/ir/OrdowskiA224/FiniteCheck.setup.json --json
+trace: .> LEAN_PATH=/workspace/a224-vbuild/.lake/packages/Cli/.lake/build/lib/lean:/workspace/a224-vbuild/.lake/packages/batteries/.lake/build/lib/lean:/workspace/a224-vbuild/.lake/packages/Qq/.lake/build/lib/lean:/workspace/a224-vbuild/.lake/packages/aesop/.lake/build/lib/lean:/workspace/a224-vbuild/.lake/packages/proofwidgets/.lake/build/lib/lean:/workspace/a224-vbuild/.lake/packages/importGraph/.lake/build/lib/lean:/workspace/a224-vbuild/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/workspace/a224-vbuild/.lake/packages/plausible/.lake/build/lib/lean:/workspace/a224-vbuild/.lake/packages/mathlib/.lake/build/lib/lean:/workspace/a224-vbuild/.lake/build/lib/lean /home/box/.elan/toolchains/leanprover--lean4---v4.35.0-rc4/bin/lean /workspace/a224-vbuild/OrdowskiA224/FiniteCheck.lean -o /workspace/a224-vbuild/.lake/build/lib/lean/OrdowskiA224/FiniteCheck.olean -i /workspace/a224-vbuild/.lake/build/lib/lean/OrdowskiA224/FiniteCheck.ilean -c /workspace/a224-vbuild/.lake/build/ir/OrdowskiA224/FiniteCheck.c --setup /workspace/a224-vbuild/.lake/build/ir/OrdowskiA224/FiniteCheck.setup.json --json
 error: Lean exited with code 137
-⚠ [9023/9032] Built OrdowskiA224.Basic (49s)
-warning: OrdowskiA224/Basic.lean:29:2: Try this: 
-  haveI̵
-
-The goal is a proposition, so `have` is preferred over `haveI`.
-The difference between `have` and `haveI` is that `haveI` inlines the value.
-But this is not relevant for proofs because of proof irrelevance.
-
-Note: This linter can be disabled with `set_option linter.style.haveILetI false`
-warning: OrdowskiA224/Basic.lean:29:23: Try this: 
-  haveI̵
-
-The goal is a proposition, so `have` is preferred over `haveI`.
-The difference between `have` and `haveI` is that `haveI` inlines the value.
-But this is not relevant for proofs because of proof irrelevance.
-
-Note: This linter can be disabled with `set_option linter.style.haveILetI false`
-✔ [9025/9032] Built OrdowskiA224.PrimePowerCore (37s)
-⚠ [9026/9032] Built OrdowskiA224.PrimePower (37s)
-warning: OrdowskiA224/PrimePower.lean:16:19: `if_neg` has been deprecated: Use `ite_eq_right` instead
-
-Hint: Replace the deprecated name:
-  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
-warning: OrdowskiA224/PrimePower.lean:96:59: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
-
-Hint: Replace the deprecated name:
-  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
-warning: OrdowskiA224/PrimePower.lean:149:59: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
-
-Hint: Replace the deprecated name:
-  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
-warning: OrdowskiA224/PrimePower.lean:208:8: `if_pos` has been deprecated: Use `ite_eq_left` instead
-
-Hint: Replace the deprecated name:
-  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
-warning: OrdowskiA224/PrimePower.lean:211:8: `if_neg` has been deprecated: Use `ite_eq_right` instead
-
-Hint: Replace the deprecated name:
-  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
-⚠ [9028/9032] Built OrdowskiA224.FiniteCheck3 (177s)
-warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
 Some required targets logged failures:
 - OrdowskiA224.FiniteCheck
 error: build failed
-EXIT 1
-
-# ===== Run 2 =====
-⚠ [9020/9032] Replayed OrdowskiA224.Defs
+⚠ [9020/9020] Built OrdowskiA224.FiniteCheck (104s)
+warning: OrdowskiA224/FiniteCheck.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+Build completed successfully (9020 jobs).
+⚠ [9020/9020] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+Build completed successfully (9020 jobs).
+⚠ [9020/9022] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9022/9022] Built OrdowskiA224.FiniteCheckPQ2 (5.9s)
+Build completed successfully (9022 jobs).
+⚠ [9020/9023] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9023/9023] Built OrdowskiA224.FCPQ.P5Q23_b0 (17s)
+Build completed successfully (9023 jobs).
+⚠ [9020/9023] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+Build completed successfully (9023 jobs).
+⚠ [9020/9023] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9023/9023] Built OrdowskiA224.FCPQ.P5Q23_b2 (23s)
+Build completed successfully (9023 jobs).
+⚠ [9020/9023] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9023/9023] Built OrdowskiA224.FCPQ.P5Q23_b3 (21s)
+Build completed successfully (9023 jobs).
+⚠ [9020/9023] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9023/9023] Built OrdowskiA224.FCPQ.P5Q23_b4 (47s)
+Build completed successfully (9023 jobs).
+⚠ [9020/9023] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9023/9023] Built OrdowskiA224.FCPQ.P5Q23_b5 (56s)
+Build completed successfully (9023 jobs).
+⚠ [9020/9023] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9023/9023] Built OrdowskiA224.FCPQ.P5Q23_b6 (27s)
+Build completed successfully (9023 jobs).
+⚠ [9020/9023] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9023/9023] Built OrdowskiA224.FCPQ.P5Q23_b7 (19s)
+Build completed successfully (9023 jobs).
+⚠ [9020/9023] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+Build completed successfully (9023 jobs).
+⚠ [9020/9023] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9023/9023] Built OrdowskiA224.FCPQ.P5Q23_s2 (6.7s)
+Build completed successfully (9023 jobs).
+⚠ [9020/9023] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9023/9023] Built OrdowskiA224.FCPQ.P5Q23_s3 (9.0s)
+Build completed successfully (9023 jobs).
+⚠ [9020/9023] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9023/9023] Built OrdowskiA224.FCPQ.P5Q23_s4 (7.3s)
+Build completed successfully (9023 jobs).
+⚠ [9020/9023] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9023/9023] Built OrdowskiA224.FCPQ.P5Q23_s5 (52s)
+Build completed successfully (9023 jobs).
+⚠ [9020/9022] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9022/9022] Built OrdowskiA224.FCPQ.P5_Q21 (17s)
+Build completed successfully (9022 jobs).
+⚠ [9020/9022] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9022/9022] Built OrdowskiA224.FCPQ.P5_Q22 (16s)
+Build completed successfully (9022 jobs).
+⚠ [9020/9036] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9036/9036] Built OrdowskiA224.FCPQ.P5_Q23 (9.2s)
+Build completed successfully (9036 jobs).
+⚠ [9020/9022] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9022/9022] Built OrdowskiA224.FCPQ.P5_Q24 (6.1s)
+Build completed successfully (9022 jobs).
+⚠ [9020/9022] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9022/9022] Built OrdowskiA224.FCPQ.P5_Q25 (6.8s)
+Build completed successfully (9022 jobs).
+⚠ [9020/9022] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9022/9022] Built OrdowskiA224.FCPQ.P5_Q26 (6.3s)
+Build completed successfully (9022 jobs).
+⚠ [9020/9022] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9022/9022] Built OrdowskiA224.FCPQ.P5_Q27 (8.8s)
+Build completed successfully (9022 jobs).
+⚠ [9020/9022] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9022/9022] Built OrdowskiA224.FCPQ.P5_Q28 (8.5s)
+Build completed successfully (9022 jobs).
+⚠ [9020/9022] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9022/9022] Built OrdowskiA224.FCPQ.P5_Q29 (8.0s)
+Build completed successfully (9022 jobs).
+⚠ [9020/9022] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9022/9022] Built OrdowskiA224.FCPQ.P5_Q30 (11s)
+Build completed successfully (9022 jobs).
+⚠ [9020/9022] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9022/9022] Built OrdowskiA224.FCPQ.P5_0 (15s)
+Build completed successfully (9022 jobs).
+⚠ [9020/9022] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9022/9022] Built OrdowskiA224.FCPQ.P5_1 (12s)
+Build completed successfully (9022 jobs).
+⚠ [9020/9046] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9046/9046] Built OrdowskiA224.FCPQ.P5_2 (8.5s)
+Build completed successfully (9046 jobs).
+⚠ [9020/9022] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9022/9022] Built OrdowskiA224.FCPQ.P5_3 (7.0s)
+Build completed successfully (9022 jobs).
+⚠ [9020/9050] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9050/9050] Built OrdowskiA224.FCPQ.P5 (8.1s)
+Build completed successfully (9050 jobs).
+⚠ [9020/9022] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9022/9022] Built OrdowskiA224.FCPQ.P3 (33s)
+Build completed successfully (9022 jobs).
+⚠ [9020/9022] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9022/9022] Built OrdowskiA224.FCPQ.P7 (18s)
+Build completed successfully (9022 jobs).
+⚠ [9020/9022] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✖ [9022/9022] Building OrdowskiA224.FCPQ.P11 (512s)
+trace: .> LEAN_PATH=/workspace/a224-vbuild/.lake/packages/Cli/.lake/build/lib/lean:/workspace/a224-vbuild/.lake/packages/batteries/.lake/build/lib/lean:/workspace/a224-vbuild/.lake/packages/Qq/.lake/build/lib/lean:/workspace/a224-vbuild/.lake/packages/aesop/.lake/build/lib/lean:/workspace/a224-vbuild/.lake/packages/proofwidgets/.lake/build/lib/lean:/workspace/a224-vbuild/.lake/packages/importGraph/.lake/build/lib/lean:/workspace/a224-vbuild/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/workspace/a224-vbuild/.lake/packages/plausible/.lake/build/lib/lean:/workspace/a224-vbuild/.lake/packages/mathlib/.lake/build/lib/lean:/workspace/a224-vbuild/.lake/build/lib/lean /home/box/.elan/toolchains/leanprover--lean4---v4.35.0-rc4/bin/lean /workspace/a224-vbuild/OrdowskiA224/FCPQ/P11.lean -o /workspace/a224-vbuild/.lake/build/lib/lean/OrdowskiA224/FCPQ/P11.olean -i /workspace/a224-vbuild/.lake/build/lib/lean/OrdowskiA224/FCPQ/P11.ilean -c /workspace/a224-vbuild/.lake/build/ir/OrdowskiA224/FCPQ/P11.c --setup /workspace/a224-vbuild/.lake/build/ir/OrdowskiA224/FCPQ/P11.setup.json --json
+error: Lean exited with code 137
+Some required targets logged failures:
+- OrdowskiA224.FCPQ.P11
+error: build failed
+⚠ [9020/9022] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+Build completed successfully (9022 jobs).
+⚠ [9020/9022] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9022/9022] Built OrdowskiA224.FCPQ.P13 (29s)
+Build completed successfully (9022 jobs).
+⚠ [9020/9022] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9022/9022] Built OrdowskiA224.FCPQ.P17 (7.9s)
+Build completed successfully (9022 jobs).
+⚠ [9020/9022] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9022/9022] Built OrdowskiA224.FCPQ.P19 (8.5s)
+Build completed successfully (9022 jobs).
+⚠ [9020/9022] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9022/9022] Built OrdowskiA224.FCPQ.P23 (10s)
+Build completed successfully (9022 jobs).
+⚠ [9020/9022] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9022/9022] Built OrdowskiA224.FCPQ.P29 (49s)
+Build completed successfully (9022 jobs).
+⚠ [9020/9022] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9022/9022] Built OrdowskiA224.FCPQ.P31 (181s)
+Build completed successfully (9022 jobs).
+⚠ [9020/9022] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9022/9022] Built OrdowskiA224.FCPQ.P37 (15s)
+Build completed successfully (9022 jobs).
+⚠ [9020/9022] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9022/9022] Built OrdowskiA224.FCPQ.P41 (9.8s)
+Build completed successfully (9022 jobs).
+⚠ [9020/9022] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9022/9022] Built OrdowskiA224.FCPQ.P43 (12s)
+Build completed successfully (9022 jobs).
+⚠ [9020/9022] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9022/9022] Built OrdowskiA224.FCPQ.P47 (7.5s)
+Build completed successfully (9022 jobs).
+⚠ [9020/9022] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9022/9022] Built OrdowskiA224.FCPQ.P53 (8.1s)
+Build completed successfully (9022 jobs).
+⚠ [9020/9022] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9022/9022] Built OrdowskiA224.FCPQ.P59 (6.0s)
+Build completed successfully (9022 jobs).
+⚠ [9020/9022] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9022/9022] Built OrdowskiA224.FCPQ.P61 (6.9s)
+Build completed successfully (9022 jobs).
+⚠ [9020/9022] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9022/9022] Built OrdowskiA224.FCPQ.P67 (7.8s)
+Build completed successfully (9022 jobs).
+⚠ [9020/9068] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+✔ [9068/9068] Built OrdowskiA224.FiniteCheckPQAll (7.2s)
+Build completed successfully (9068 jobs).
+⚠ [9020/9083] Replayed OrdowskiA224.FiniteCheck
+warning: OrdowskiA224/FiniteCheck.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+⚠ [9021/9083] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+⚠ [9070/9083] Built OrdowskiA224.Defs (5.2s)
 warning: OrdowskiA224/Defs.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
-⚠ [9021/9032] Replayed OrdowskiA224.Count
+⚠ [9071/9083] Built OrdowskiA224.Count (6.4s)
 warning: OrdowskiA224/Count.lean:14:19: `if_neg` has been deprecated: Use `ite_eq_right` instead
 
 Hint: Replace the deprecated name:
@@ -92,7 +227,7 @@ warning: OrdowskiA224/Count.lean:61:26: `if_neg` has been deprecated: Use `ite_e
 
 Hint: Replace the deprecated name:
   i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
-⚠ [9022/9032] Replayed OrdowskiA224.Basic
+⚠ [9072/9083] Built OrdowskiA224.Basic (6.6s)
 warning: OrdowskiA224/Basic.lean:29:2: Try this: 
   haveI̵
 
@@ -109,32 +244,8 @@ The difference between `have` and `haveI` is that `haveI` inlines the value.
 But this is not relevant for proofs because of proof irrelevance.
 
 Note: This linter can be disabled with `set_option linter.style.haveILetI false`
-⚠ [9024/9032] Replayed OrdowskiA224.PrimePower
-warning: OrdowskiA224/PrimePower.lean:16:19: `if_neg` has been deprecated: Use `ite_eq_right` instead
-
-Hint: Replace the deprecated name:
-  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
-warning: OrdowskiA224/PrimePower.lean:96:59: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
-
-Hint: Replace the deprecated name:
-  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
-warning: OrdowskiA224/PrimePower.lean:149:59: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
-
-Hint: Replace the deprecated name:
-  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
-warning: OrdowskiA224/PrimePower.lean:208:8: `if_pos` has been deprecated: Use `ite_eq_left` instead
-
-Hint: Replace the deprecated name:
-  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
-warning: OrdowskiA224/PrimePower.lean:211:8: `if_neg` has been deprecated: Use `ite_eq_right` instead
-
-Hint: Replace the deprecated name:
-  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
-⚠ [9025/9032] Replayed OrdowskiA224.FiniteCheck3
-warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
-⚠ [9026/9032] Built OrdowskiA224.FiniteCheck (75s)
-warning: OrdowskiA224/FiniteCheck.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
-⚠ [9027/9032] Built OrdowskiA224.Semiprime (24s)
+✔ [9073/9083] Built OrdowskiA224.PrimePowerCore (19s)
+⚠ [9074/9083] Built OrdowskiA224.Semiprime (23s)
 warning: OrdowskiA224/Semiprime.lean:86:2: Try this: 
   haveI̵
 
@@ -175,8 +286,29 @@ The difference between `have` and `haveI` is that `haveI` inlines the value.
 But this is not relevant for proofs because of proof irrelevance.
 
 Note: This linter can be disabled with `set_option linter.style.haveILetI false`
-✔ [9028/9032] Built OrdowskiA224.Main (6.3s)
-⚠ [9029/9032] Built OrdowskiA224.ThreePrimes (23s)
+⚠ [9075/9083] Built OrdowskiA224.PrimePower (7.7s)
+warning: OrdowskiA224/PrimePower.lean:16:19: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+warning: OrdowskiA224/PrimePower.lean:96:59: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+warning: OrdowskiA224/PrimePower.lean:149:59: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+warning: OrdowskiA224/PrimePower.lean:208:8: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+warning: OrdowskiA224/PrimePower.lean:211:8: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+✔ [9076/9083] Built OrdowskiA224.Main (6.9s)
+⚠ [9077/9083] Built OrdowskiA224.ThreePrimes (26s)
 warning: OrdowskiA224/ThreePrimes.lean:261:6: Unused tactic linter: `push_cast` does nothing
 
 Note: This linter can be disabled with `set_option linter.unusedTactic false`
@@ -220,6 +352,311 @@ The difference between `have` and `haveI` is that `haveI` inlines the value.
 But this is not relevant for proofs because of proof irrelevance.
 
 Note: This linter can be disabled with `set_option linter.style.haveILetI false`
-✔ [9030/9032] Built OrdowskiA224.MainThree (5.7s)
-✔ [9031/9032] Built OrdowskiA224 (4.5s)
-Build completed successfully (9032 jobs).
+✔ [9078/9083] Built OrdowskiA224.MainThree (7.2s)
+⚠ [9079/9083] Built OrdowskiA224.TwoPrimePowers (22s)
+warning: OrdowskiA224/TwoPrimePowers.lean:58:10: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+warning: OrdowskiA224/TwoPrimePowers.lean:328:52: Variable name `hs1` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hs1
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [9080/9083] Built OrdowskiA224.TwoPrimePowersGlue (20s)
+warning: OrdowskiA224/TwoPrimePowersGlue.lean:11:64: Variable name `hX` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hX
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: OrdowskiA224/TwoPrimePowersGlue.lean:12:19: Variable name `hc1` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hc1
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: OrdowskiA224/TwoPrimePowersGlue.lean:12:76: Variable name `he2` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _he2
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: OrdowskiA224/TwoPrimePowersGlue.lean:59:77: Variable name `hY` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hY
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: OrdowskiA224/TwoPrimePowersGlue.lean:60:35: Variable name `he1` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _he1
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [9081/9083] Built OrdowskiA224.TwoPrimePowersMain (18s)
+warning: OrdowskiA224/TwoPrimePowersMain.lean:87:42: Variable name `hpq` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hpq
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: OrdowskiA224/TwoPrimePowersMain.lean:100:29: Variable name `e` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _e
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: OrdowskiA224/TwoPrimePowersMain.lean:420:2: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+warning: OrdowskiA224/TwoPrimePowersMain.lean:421:2: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+warning: OrdowskiA224/TwoPrimePowersMain.lean:422:2: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+✔ [9082/9083] Built OrdowskiA224 (5.4s)
+Build completed successfully (9083 jobs).
+⚠ [9020/9083] Replayed OrdowskiA224.Defs
+warning: OrdowskiA224/Defs.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+⚠ [9021/9083] Replayed OrdowskiA224.Count
+warning: OrdowskiA224/Count.lean:14:19: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+warning: OrdowskiA224/Count.lean:30:2: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+warning: OrdowskiA224/Count.lean:61:26: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+⚠ [9022/9083] Replayed OrdowskiA224.Basic
+warning: OrdowskiA224/Basic.lean:29:2: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+warning: OrdowskiA224/Basic.lean:29:23: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+⚠ [9024/9083] Replayed OrdowskiA224.FiniteCheck
+warning: OrdowskiA224/FiniteCheck.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+⚠ [9025/9083] Replayed OrdowskiA224.Semiprime
+warning: OrdowskiA224/Semiprime.lean:86:2: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+warning: OrdowskiA224/Semiprime.lean:86:23: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+warning: OrdowskiA224/Semiprime.lean:87:2: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+warning: OrdowskiA224/Semiprime.lean:87:36: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+warning: OrdowskiA224/Semiprime.lean:88:2: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+⚠ [9026/9083] Replayed OrdowskiA224.PrimePower
+warning: OrdowskiA224/PrimePower.lean:16:19: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+warning: OrdowskiA224/PrimePower.lean:96:59: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+warning: OrdowskiA224/PrimePower.lean:149:59: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+
+Hint: Replace the deprecated name:
+  S̵e̵t̵.̵m̵e̵m̵_̵s̵e̵t̵O̵f̵_̵e̵q̵S̲e̲t̲.̲m̲e̲m̲_̲o̲f̲P̲r̲e̲d̲_̲e̲q̲
+warning: OrdowskiA224/PrimePower.lean:208:8: `if_pos` has been deprecated: Use `ite_eq_left` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
+warning: OrdowskiA224/PrimePower.lean:211:8: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+⚠ [9028/9083] Replayed OrdowskiA224.FiniteCheck3
+warning: OrdowskiA224/FiniteCheck3.lean: imports `Mathlib` from package `mathlib`, which is designed for use with the module system; consider adding `module` to the start of this file
+⚠ [9029/9083] Replayed OrdowskiA224.ThreePrimes
+warning: OrdowskiA224/ThreePrimes.lean:261:6: Unused tactic linter: `push_cast` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: OrdowskiA224/ThreePrimes.lean:271:2: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+warning: OrdowskiA224/ThreePrimes.lean:271:36: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+warning: OrdowskiA224/ThreePrimes.lean:272:2: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+warning: OrdowskiA224/ThreePrimes.lean:273:2: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+warning: OrdowskiA224/ThreePrimes.lean:274:2: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+⚠ [9032/9083] Replayed OrdowskiA224.TwoPrimePowers
+warning: OrdowskiA224/TwoPrimePowers.lean:58:10: `if_neg` has been deprecated: Use `ite_eq_right` instead
+
+Hint: Replace the deprecated name:
+  i̵f̵_̵n̵e̵g̵i̲t̲e̲_̲e̲q̲_̲r̲i̲g̲h̲t̲
+warning: OrdowskiA224/TwoPrimePowers.lean:328:52: Variable name `hs1` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hs1
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [9080/9083] Replayed OrdowskiA224.TwoPrimePowersGlue
+warning: OrdowskiA224/TwoPrimePowersGlue.lean:11:64: Variable name `hX` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hX
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: OrdowskiA224/TwoPrimePowersGlue.lean:12:19: Variable name `hc1` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hc1
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: OrdowskiA224/TwoPrimePowersGlue.lean:12:76: Variable name `he2` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _he2
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: OrdowskiA224/TwoPrimePowersGlue.lean:59:77: Variable name `hY` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hY
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: OrdowskiA224/TwoPrimePowersGlue.lean:60:35: Variable name `he1` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _he1
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [9081/9083] Replayed OrdowskiA224.TwoPrimePowersMain
+warning: OrdowskiA224/TwoPrimePowersMain.lean:87:42: Variable name `hpq` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hpq
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: OrdowskiA224/TwoPrimePowersMain.lean:100:29: Variable name `e` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _e
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: OrdowskiA224/TwoPrimePowersMain.lean:420:2: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+warning: OrdowskiA224/TwoPrimePowersMain.lean:421:2: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+warning: OrdowskiA224/TwoPrimePowersMain.lean:422:2: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+Build completed successfully (9083 jobs).
