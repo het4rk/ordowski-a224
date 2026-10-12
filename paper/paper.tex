@@ -18,11 +18,11 @@
 \newcommand{\lean}[1]{{\ttfamily\def\_{\textunderscore\allowbreak}\def\/{/\allowbreak}#1}}
 \author{Hetark Shah, AI-assisted by Grok}
 \date{October 12, 2026}
-\title{On Ordowski's characterization of odd primes by the number of squares modulo $n$ (OEIS A000224): even numbers, prime powers, and products of two or three distinct primes, formalized in Lean~4}
+\title{On Ordowski's characterization of odd primes by the number of squares modulo $n$ (OEIS A000224): even numbers, prime powers, numbers $p^aq^b$, and products of three distinct primes, formalized in Lean~4}
 \begin{document}
 \maketitle
 \begin{abstract}
-Let $a(n)$ be the number of squares modulo $n$ (OEIS A000224~\cite{oeis}). T.~Ordowski conjectured that for $n>1$, $n^2\equiv1\pmod{a(n)(a(n)-1)}$ holds if and only if $n$ is an odd prime. \textbf{The full conjecture remains open.} We prove it for every $n>1$ that is even, a prime power $p^k$ ($k\ge1$), a product $pq$ of two distinct odd primes, or a product $pqr$ of three distinct odd primes. The prime-power case uses Stangl's formula for $a(p^k)$~\cite{stangl}, which we also formalize. The semiprime case combines a size bound with a divisibility bound and a finite check. The three-prime case bounds the smallest prime by a size argument, views the congruence as a quadratic in the largest prime to bound the middle one, and finishes with a kernel-checked finite verification of about $9.4\times10^4$ cases. Everything is formalized in Lean~4 with Mathlib against the exact definition of $a$ in Google DeepMind's \texttt{formal-conjectures} repository~\cite{fc}. The development uses no \texttt{sorry} and no \texttt{native\_decide}, and only the standard axioms.
+Let $a(n)$ be the number of squares modulo $n$ (OEIS A000224~\cite{oeis}). T.~Ordowski conjectured that for $n>1$, $n^2\equiv1\pmod{a(n)(a(n)-1)}$ holds if and only if $n$ is an odd prime. \textbf{The full conjecture remains open.} We prove it for every $n>1$ that is even, a prime power $p^k$ ($k\ge1$), a number $p^aq^b$ with $p\ne q$ odd primes and $a,b\ge1$ (in particular every $pq$), or a product $pqr$ of three distinct odd primes. The prime-power case uses Stangl's formula for $a(p^k)$~\cite{stangl}, which we also formalize. The semiprime case combines a size bound with a divisibility bound and a finite check. The three-prime case bounds the smallest prime by a size argument, views the congruence as a quadratic in the largest prime to bound the middle one, and finishes with a kernel-checked finite verification of about $9.4\times10^4$ cases. The case $p^aq^b$ uses Stangl's formula to write the congruence as a quadratic in $p^a$ and in $q^b$; size bounds give $Q\le40$ and $p\le67$, explicit bounds on $q$ and on $\min(p^a,q^b)$ follow, and a kernel-checked integer-root search finishes the proof. Everything is formalized in Lean~4 with Mathlib against the exact definition of $a$ in Google DeepMind's \texttt{formal-conjectures} repository~\cite{fc}. The development uses no \texttt{sorry} and no \texttt{native\_decide}, and only the standard axioms.
 \end{abstract}
 
 \section{Introduction}
@@ -37,9 +37,9 @@ The count $a(n)$ is multiplicative, and Stangl~\cite{stangl} gives its value at 
 
 \section{Statement}
 \begin{theorem}\label{main}
-Conjecture~\ref{conj} holds for every $n>1$ that is (i) even, (ii) a prime power $p^k$ with $k\ge1$, or (iii) a product $pq$ of distinct odd primes $p,q$, or (iv) a product $pqr$ of distinct odd primes $p,q,r$.
+Conjecture~\ref{conj} holds for every $n>1$ that is (i) even, (ii) a prime power $p^k$ with $k\ge1$, or (iii) of the form $p^aq^b$ with $p\ne q$ odd primes and $a,b\ge1$ (this includes $pq$), or (iv) a product $pqr$ of distinct odd primes $p,q,r$.
 \end{theorem}
-\noindent Cases not covered include squarefree $n$ with four or more odd prime factors, and odd $n$ such as $p^2q$ that have a repeated prime factor and at least two distinct primes.
+\noindent The cases not covered are exactly the odd $n$ with at least three distinct prime factors, other than squarefree $pqr$ (for example $pqrs$ or $p^2qr$).
 
 \section{Proof overview}
 \subsection{Preliminaries}
@@ -103,10 +103,32 @@ If $p$ is an odd prime, $k\ge 2$, and $s$ satisfies the identity of Lemma~\ref{s
 Let $X=p^k$ and $M=2(p+1)$, and write $Q\,s(s-1)=X^2-1$. Multiplying by $M^2$ gives $Q(Ms)(Ms-M)=M^2(X^2-1)$. For even $k$, reducing modulo $p$ gives $p\mid 4(p+1)^2$, which is impossible. For odd $k\ge 3$, a size estimate gives $1\le Q\le 7$, and reducing modulo $p$ gives $p\mid Q-4$. If $Q=4$, the equation becomes $(2p+1)X^2=2p^2X+p^2$, which is impossible since $X>p$. Otherwise $p=3$ and $Q\in\{1,7\}$, and both cases are ruled out by elementary inequalities.
 \end{proof}
 
+\subsection{Two distinct primes with arbitrary exponents}
+\begin{theorem}\label{ppq}
+Let $p<q$ be distinct odd primes and $a,b\ge1$. Then $n=p^aq^b$ does not satisfy $n^2\equiv1\pmod{a(n)(a(n)-1)}$.
+\end{theorem}
+\begin{proof}[Sketch]
+Write $X=p^a$, $Y=q^b$, $s=a(n)=a(X)a(Y)$ and $M=4(p+1)(q+1)$. By Lemma~\ref{stangl}, $U:=2(p+1)a(X)=pX+c$ and $V:=2(q+1)a(Y)=qY+e$ with $c\in\{p+2,2p+1\}$ and $e\in\{q+2,2q+1\}$, so $Ms=UV$. Suppose $Q\,s(s-1)=n^2-1$. Then $Q$ is prime to $n$ (it divides $n^2-1$), and
+\[Q\,UV(UV-M)=M^2(X^2Y^2-1). \tag{$*$}\]
 
+\emph{Step 1: $1\le Q\le 40$.} Expanding, $UV-M\ge pq\,n$ (the term $qYc\ge q^2(p+2)$ already exceeds $M$), so $Q\,p^2q^2n^2\le M^2(n^2-1)$ and $Qp^2q^2<M^2=16(p+1)^2(q+1)^2$. Since $8pq\ge5(p+1)(q+1)$ for $p\ge3$, $q\ge5$, this forces $Q\le40$.
+
+\emph{Step 2: $p\le67$.} If $p\ge71$ then $pq/((p+1)(q+1))\ge 5112/5256$, and comparing $(*)$ with $pqn\le Ms\le ((p+1)(q+1))^2n/(pq)$ gives $15<Q<17$. But $Q=16$ means $(4s-2)^2=n^2+3$, impossible for $n\ge2$. The primes $68\le p\le70$ do not exist.
+
+\emph{Step 3: two quadratics.} Substituting $U=pX+c$ in $(*)$ gives
+\[(M^2Y^2-Qp^2V^2)X^2=QpV(2cV-M)\,X+\bigl(QcV(cV-M)+M^2\bigr),\]
+and symmetrically a quadratic in $Y$ with leading coefficient $M^2X^2-Qq^2U^2$. Because $cV>M$ and $eU>M$, both right-hand sides have positive coefficients, so both leading coefficients are positive.
+
+\emph{Step 4: bounding $q$.} Let $E=16(p+1)^2-Qp^2$ (never $0$, since $p\nmid16(p+1)^2$) and $G=16(p+1)^2X^2-QU^2$. The quadratic in $Y$ together with $Y\ge q$ gives $q(-G)<48(p+1)^2X^2$ if $G<0$ and $qG\le13QU^2$ if $G>0$. If $E<0$ this yields $q\le 48(p+1)^2/(-E)$. If $E>0$ and $2Q(2p+1)(2pX+2p+1)\le EX^2$ (automatic for $X>2\cdot10^6$), then $2G\ge EX^2$ and $pU\le(p+1)^2X$ give $q\le 26Q(p+1)^4/(p^2E)$. The finitely many remaining $X\le2\cdot10^6$ are treated one at a time with the $X$-dependent bound.
+
+\emph{Step 5: bounding $\min(X,Y)$.} Write $\Delta=M^2-Qp^2q^2>0$. Expanding $(*)$ with $U^2-p^2X^2\le9p^2X$ and $V^2-q^2Y^2\le9q^2Y$ gives $\min(X,Y)\,\Delta<45Qp^2q^2+M^2$.
+
+\emph{Step 6: finite check.} For every prime $p\le67$, every $1\le Q\le40$ with $p\nmid Q$, every odd $q>p$ under the bound of Step~4, and every power $X=p^a$ (resp.\ $Y=q^b$) under the bound of Step~5 (or $X\le2\cdot10^6$ in the small-$X$ branch), and for both admissible values of $e$ (resp.\ $c$), the quadratic in the other variable has no natural root divisible by $q$ (resp.\ $p$). Roots are tested as in Theorem~\ref{pqr}: a Newton candidate $c$ is verified by $c^2\le D<(c+1)^2$.
+\end{proof}
+\noindent The case $a=b=1$ is covered as well, so Theorem~\ref{ppq} contains the semiprime case. An independent search up to $n\le10^{15}$ also found no counterexample of this shape.
 
 \section{Formalization}
-All declarations are in namespace \lean{OeisA224}. The definition \lean{a} in \lean{Defs.lean} is copied verbatim from \texttt{formal-conjectures}. The theorems \lean{conjecture\_main} and \lean{conjecture\_main\_three} conclude exactly \lean{(n.Prime \(\wedge\) n \(\neq\) 2) \(\leftrightarrow\) n \textasciicircum{} 2 \(\equiv\) 1 [MOD a n * (a n - 1)]} under its case hypothesis.
+All declarations are in namespace \lean{OeisA224}. The definition \lean{a} in \lean{Defs.lean} is copied verbatim from \texttt{formal-conjectures}. The theorems \lean{conjecture\_main}, \lean{conjecture\_main\_three} and \lean{conjecture\_main\_ppq} conclude exactly \lean{(n.Prime \(\wedge\) n \(\neq\) 2) \(\leftrightarrow\) n \textasciicircum{} 2 \(\equiv\) 1 [MOD a n * (a n - 1)]} under its case hypothesis.
 \begin{table}[ht]
 \centering
 \begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X@{}}
@@ -122,7 +144,11 @@ Lean name (file) & Statement \\
 \lean{conjecture\_of\_even\_or\_prime\_or\_semiprime}, \lean{conjecture\_main} (\lean{Main.lean}) & Theorem~\ref{main}, cases (i)--(iii) \\
 \lean{finCheck3\_true} (\lean{FiniteCheck3.lean}) & Step~4 of Theorem~\ref{pqr}, \lean{decide +kernel}, in 10 chunks \\
 \lean{pqr\_Q}, \lean{pqr\_p\_le}, \lean{pqr\_quad}, \lean{pqr\_bounds}, \lean{rootFree\_spec}, \lean{pqr\_no}, \lean{three\_primes\_case} (\lean{ThreePrimes.lean}) & Theorem~\ref{pqr} \\
-\lean{three\_primes\_case'}, \lean{conjecture\_main\_three} (\lean{MainThree.lean}) & Theorem~\ref{main}, cases (i)--(iv) \\
+\lean{three\_primes\_case'}, \lean{conjecture\_main\_three} (\lean{MainThree.lean}) & Theorem~\ref{main}, cases (i), (ii), (iv) and $pq$ \\
+\lean{core\_quadX}, \lean{core\_quadY}, \lean{core\_qbound}, \lean{core\_min}, \lean{core\_large} (\lean{TwoPrimePowers.lean}) & Steps~2--5 of Theorem~\ref{ppq} \\
+\lean{okP2\_of\_mem} (\lean{FiniteCheckPQ*.lean}, \lean{FCPQ/*.lean}) & Step~6 of Theorem~\ref{ppq}, \lean{decide +kernel}, split into 45 modules \\
+\lean{noY\_one}, \lean{noX\_one} (\lean{TwoPrimePowersGlue.lean}) & soundness of the root tests \\
+\lean{KM\_lt}, \lean{Q\_le\_40}, \lean{triple\_spec}, \lean{smallCheck\_spec}, \lean{ppq\_finite}, \lean{two\_prime\_powers\_case}, \lean{conjecture\_main\_ppq} (\lean{TwoPrimePowersMain.lean}) & Step~1, assembly, Theorem~\ref{ppq}, Theorem~\ref{main} (i)--(iv) \\
 \bottomrule
 \end{tabularx}
 \caption{Theorems and their Lean names.}\label{tab:lean}
@@ -138,13 +164,13 @@ lake exe cache get
 lake build
 lake env lean Axioms.lean
 \end{verbatim}
- \lean{FiniteCheck.lean} and \lean{FiniteCheck3.lean} each take about 4--5 minutes and several GB of RAM.
-\item Axioms: all 15 declarations listed in \texttt{Axioms.lean}, including \lean{conjecture\_main\_three}, depend only on standard axioms: \texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound} (\lean{finCheck3\_true} uses only \texttt{propext}).
+ \lean{FiniteCheck.lean} and \lean{FiniteCheck3.lean} each take about 4--5 minutes and several GB of RAM; the 45 modules of the $p^aq^b$ check take roughly 20 minutes in total and should be built one at a time (as CI does).
+\item Axioms: all 18 declarations listed in \texttt{Axioms.lean}, including \lean{conjecture\_main\_three} and \lean{conjecture\_main\_ppq}, depend only on standard axioms: \texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound} (\lean{finCheck3\_true} uses only \texttt{propext}).
 \item Attestation: \texttt{verification/} contains the fresh-clone build log, the axiom output and \texttt{VERIFICATION.md}, which records the commit, the toolchain and SHA-256 hashes of the Lean sources. CI (\url{https://github.com/het4rk/ordowski-a224/actions/workflows/lean.yml}) rebuilds the project on every push. It rejects \texttt{sorry} and non-whitelisted axioms, and uploads the build log and axiom report as artifacts.
 \end{itemize}
 
 \section{Limitations}
-\textbf{The full conjecture remains open.} Two cases are untreated: squarefree odd $n$ with $k\ge4$ prime factors, and odd composites with a repeated prime factor and at least two distinct primes (for example $p^2q$). For squarefree $n$ with $k$ factors, the argument of Theorem~\ref{pqr} gives $Q<4^k$ and a bound on the smallest prime of order $k\,4^k$. For each fixed $k$ an iterated version of Steps~2--4 reduces the problem to a finite search, but the search grows far too quickly to check in the kernel even for $k=4$. A proof uniform in $k$ would need a new idea. The independent computational checks in \texttt{scripts/} are not part of the formal proof.
+\textbf{The full conjecture remains open.} The untreated case is odd $n$ with at least three distinct prime factors, other than squarefree $pqr$; for example $pqrs$ and $p^2qr$. For squarefree $n$ with $k$ factors, the argument of Theorem~\ref{pqr} gives $Q<4^k$ and a bound on the smallest prime of order $k\,4^k$. For each fixed $k$ an iterated version of Steps~2--4 reduces the problem to a finite search, but the search grows far too quickly to check in the kernel even for $k=4$. A proof uniform in $k$ would need a new idea. The independent computational checks in \texttt{scripts/} are not part of the formal proof.
 
 \begin{thebibliography}{9}
 \bibitem{oeis} OEIS Foundation Inc., \emph{A000224: Number of squares mod n}, \url{https://oeis.org/A000224}.
